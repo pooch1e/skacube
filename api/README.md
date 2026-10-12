@@ -4,7 +4,7 @@ Flask app: GraphQL metadata at `/graphql` and the processed volume at `/data/vol
 
 ```bash
 uv sync
-uv run flask --app skacube run --debug   # http://127.0.0.1:5000/health
+uv run flask run --debug   # http://127.0.0.1:3001/health (defaults from .flaskenv)
 uv run ruff check && uv run ruff format --check
 uv run mypy
 uv run pytest
