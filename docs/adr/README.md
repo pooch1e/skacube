@@ -26,7 +26,7 @@ Each ADR records one decision: the context, the options considered, what was cho
 | [0020](0020-browser-channel-slice.md) | Channel slice cut from the 3D texture first | Accepted |
 | [0021](0021-data-storage.md) | Raw file stays local; processed files are committed | Accepted |
 | [0022](0022-testing-strategy.md) | Testing strategy | Accepted |
-| [0023](0023-shadcn-tailwind.md) | shadcn/ui primitives, styled with Skycube tokens | Accepted |
+| [0023](0023-shadcn-tailwind.md) | shadcn/ui primitives, styled with Skacube tokens | Accepted |
 | [0024](0024-ci-pipeline.md) | CI pipeline and commit convention | Accepted |
 | [0025](0025-local-dev-compose.md) | Native dev, Docker Compose for the full stack | Accepted |
 | [0026](0026-api-serves-volume.md) | The API serves the processed volume | Accepted |
