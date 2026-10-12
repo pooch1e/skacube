@@ -4,7 +4,7 @@ Design tokens, primitives and typed data fetching, before any viewer work. ADRs:
 
 ## S4.1 Design tokens in code
 
-As a developer, I style everything from Skycube tokens, in Night and Day.
+As a developer, I style everything from Skacube tokens, in Night and Day.
 
 Acceptance:
 - Tokens from the [design system](../docs/design/README.md) as CSS variables; Night default, Day via `prefers-color-scheme` and a toggle
@@ -24,7 +24,7 @@ As a developer, I build UI from accessible, restyled primitives.
 Tasks:
 - [ ] T4.2.1 `shadcn init`; add Button, Slider, Toggle Group, Tooltip — S
 - [ ] T4.2.2 Restyle to the design system (square panels, 2px controls, focus ring) — M
-- [ ] T4.2.3 Skycube components: Panel, Readout, ColormapLegend, FitsHeader — M
+- [ ] T4.2.3 Skacube components: Panel, Readout, ColormapLegend, FitsHeader — M
 
 ## S4.3 Typed data fetching
 
