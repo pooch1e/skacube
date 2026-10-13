@@ -16,6 +16,7 @@ Status: **planning**. Sections marked _Open_ are still being decided.
 - [Dependencies](architecture/dependencies.md): languages, frameworks and libraries
 - [Production ingest](architecture/production-ingest.md): how hosting and ingest would work without local processing
 - [SDLC](sdlc.md): repo, branching, testing, CI/CD, releases
+- [Docker](docker.md): how the containers and Compose file work
 
 ## Design
 
