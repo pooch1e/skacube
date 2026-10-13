@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Skacube
 
-## Getting Started
+Skacube is a demonstration project utilising Next.Js and a Flask backend to render a FITS file cube in 3d. I want to demonstrate my experience and skills with UI/UX, simple containerisation, design systems and my Agentic workflow process.
 
-First, run the development server:
+## Why I built this
+
+I am very interested in working at SKA-Low as I like the UX challenge of communicating complicated technical instructions to a wide audience. I am not from a STEM background, so even in dissecting the SKA-Low docs and api, I was finding it very difficult to parse. I feel there is a good meeting point where design and UI can meet the extrodinarily exciting and technical disoveries the SKA-Low radioscope provides and demonstrate it to a wide audience. 
+
+## Run it
+
+Everything, one command:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+docker compose up --build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open <http://localhost:3000>. Details in [docs/docker.md](docs/docker.md).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+For day-to-day development ([ADR 0025](docs/adr/0025-local-dev-compose.md)):
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cd api && uv run flask run     # http://localhost:3001/health
+cd web && pnpm dev             # http://localhost:3000
+```
 
-## Learn More
+Checks, the same ones CI runs:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+cd api && uv run ruff check && uv run ruff format --check && uv run mypy && uv run pytest
+cd web && pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Layout
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Path | What |
+|---|---|
+| `web/` | Next.js (App Router, TypeScript) front end |
+| `api/` | Flask API: GraphQL for metadata, REST for the binary volume |
+| `data/` | Processed volume and its README (the raw FITS file is not committed - taken from SKA-Low website) |
+| `docs/` | Overview, architecture, design, background, ADRs |
+| `backlog/` | Epics, stories and tasks |
 
-## Deploy on Vercel
+## Decisions and design
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- In this demonstration I have ingested and compressed the FITS file locally, then have committed the compressed file. In a real life situation, this would have to be hosted somewhere, accessed probably with a presigned URL, processed as a batch job then streamed to client in a blob or chunks. The files are far too big to download and display in the client. 
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## How it maps to the role
+
+
+| React / Next.js | `web/`, [architecture](docs/architecture/README.md) |
+| Flask and GraphQL | `api/`, [ADR 0005](docs/adr/0005-flask-backend.md) |
+| Version control, CI/CD, testing, docs | [SDLC](docs/sdlc.md), `.github/workflows/` |
+| UX and reusable components | [design system](docs/design/README.md) |
+| Linux and containers | `Dockerfile`s, `compose.yaml`, [ADR 0025](docs/adr/0025-local-dev-compose.md) |
+
+
+## Docs
+
+Start at [docs/README.md](docs/README.md). Every significant choice has an [ADR](docs/adr/README.md).
+
+## Licence
+
+[MIT](LICENSE).
