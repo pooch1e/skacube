@@ -1,16 +1,16 @@
 # Production ingest: without local processing
 
-The demo processes one file on a laptop and commits the output ([ADR 0013](../adr/0013-one-time-ingest.md), [ADR 0021](../adr/0021-data-storage.md)). This page answers: *how would it work for real data, at real scale?*
+The demo processes one file on a laptop and commits the output ([ADR 0028](../adr/0028-standalone-ingest-script.md), [ADR 0021](../adr/0021-data-storage.md)). This page answers: *how would it work for real data, at real scale?*
 
 ## Short answer
 
-> Files land in object storage, and that event queues a containerised ingest job. The job runs the same ingest code, streaming the cube in chunks, and writes multi-resolution files back to storage. A catalogue database tracks each dataset's status and file locations. The API reads the catalogue and hands the browser CDN URLs, so large bytes never pass through Flask. At SKA scale this UI wouldn't own ingest at all: it would be a client of the observatory's data services.
+> Files land in object storage, and that event queues a containerised ingest job. The job runs the ingest script, adapted to stream the cube in chunks, and writes multi-resolution files back to storage. A catalogue database tracks each dataset's status and file locations. The API reads the catalogue and hands the browser CDN URLs, so large bytes never pass through Flask. At SKA scale this UI wouldn't own ingest at all: it would be a client of the observatory's data services.
 
 ## Pipeline
 
 ```
 upload (signed URL) ──► raw bucket ──event──► queue ──► ingest job (container)
-                                                          │ same code as `flask ingest`
+                                                          │ adapted from data/ingest.py
                                                           │ chunked, memory-bounded
                                                           ▼
                          catalogue DB ◄── status ── processed bucket (+ CDN)
@@ -25,7 +25,7 @@ upload (signed URL) ──► raw bucket ──event──► queue ──► in
 1. **Upload**: the browser gets a signed URL and uploads straight to the bucket, resumable and in parts. Gigabytes never pass through the API.
 2. **Raw storage**: object storage (GCS or S3), immutable, keyed by checksum. Re-uploading the same file is a no-op.
 3. **Trigger**: an object-created notification goes onto a queue (Pub/Sub or SQS). A dead-letter queue catches repeated failures.
-4. **Ingest job**: a container (Cloud Run Jobs, Kubernetes Job) running the existing ingest module.
+4. **Ingest job**: a container (Cloud Run Jobs, Kubernetes Job) running the ingest script, adapted for chunked, memory-bounded reads.
    - It memory-maps the FITS file and processes it channel by channel, so memory stays bounded regardless of file size. Dask can handle files bigger than one machine.
    - It writes **multi-resolution** output: a 128³ preview, the 256³ volume, and full-resolution data in a chunked format (Zarr or tiled FITS) for slices and cutouts.
    - Output is keyed by `checksum + pipeline version`, so changing the stretch re-ingests cleanly.
@@ -48,6 +48,6 @@ SKA data products are produced by the Science Data Processor and distributed to 
 
 ## What carries over from the demo
 
-- The ingest code is a pure module with tests; only its trigger and storage change.
+- The ingest maths is kept in pure functions with tests; only its trigger and storage change.
 - The API's GraphQL schema stays; resolvers read the catalogue instead of local files.
 - The viewer is unchanged; it already loads a volume by URL.

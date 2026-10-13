@@ -1,6 +1,6 @@
 # 0013. Ingest once, serve the processed files
 
-- Status: Accepted
+- Status: Superseded by [0028](0028-standalone-ingest-script.md)
 - Date: 2026-10-12
 
 ## Context

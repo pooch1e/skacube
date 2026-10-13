@@ -4,7 +4,7 @@ How the [dataset](../background/dataset.md) becomes pixels on screen.
 
 ```
 SKAO download (981 MB FITS)
-        │  flask ingest (once)             ADR 0013
+        │  data/ingest.py (once)           ADR 0028
         ▼
 processed files ── volume 256³ uint8       ADR 0016
         │          metadata JSON
@@ -19,7 +19,7 @@ Browser ── TanStack Query                  ADR 0009
 
 ## Steps
 
-1. **Ingest** runs once ([ADR 0013](../adr/0013-one-time-ingest.md)): read the cube with astropy, block-average to 256³, apply a symmetric asinh stretch around 0 K ([ADR 0015](../adr/0015-diverging-colormap.md)), quantise to 8-bit, write the header and axis metadata as JSON.
+1. **Ingest** runs once as a standalone script ([ADR 0028](../adr/0028-standalone-ingest-script.md)): read the cube with astropy, block-average to 256³, apply a symmetric asinh stretch around 0 K ([ADR 0015](../adr/0015-diverging-colormap.md)), quantise to 8-bit, write the header and axis metadata as JSON.
 2. **API** serves only processed files. It never opens the raw FITS.
 3. **Browser** fetches metadata over GraphQL and the volume as raw bytes, then renders the [viewer modes](../adr/0014-viewer-modes.md).
 

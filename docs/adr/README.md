@@ -16,7 +16,7 @@ Each ADR records one decision: the context, the options considered, what was cho
 | [0010](0010-react-three-fiber.md) | react-three-fiber for rendering | Accepted |
 | [0011](0011-app-router-client-viewer.md) | App Router; static splash, client-side viewer | Accepted |
 | [0012](0012-tooling.md) | Tooling | Accepted |
-| [0013](0013-one-time-ingest.md) | Ingest once, serve the processed files | Accepted |
+| [0013](0013-one-time-ingest.md) | Ingest once, serve the processed files | Superseded by 0028 |
 | [0014](0014-viewer-modes.md) | Viewer modes | Accepted |
 | [0015](0015-diverging-colormap.md) | Diverging colormap for signed data | Accepted |
 | [0016](0016-texture-resolution.md) | 3D texture at 256³, block-averaged | Accepted |
@@ -31,3 +31,4 @@ Each ADR records one decision: the context, the options considered, what was cho
 | [0025](0025-local-dev-compose.md) | Native dev, Docker Compose for the full stack | Accepted |
 | [0026](0026-api-serves-volume.md) | The API serves the processed volume | Accepted |
 | [0027](0027-accessibility-checks.md) | Automated accessibility checks | Accepted |
+| [0028](0028-standalone-ingest-script.md) | Ingest is a standalone script, not part of the API | Accepted |

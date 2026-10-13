@@ -1,13 +1,13 @@
 # 0022. Testing strategy
 
-- Status: Accepted
+- Status: Accepted. The ingest row is amended by [0028](0028-standalone-ingest-script.md)
 - Date: 2026-10-12
 
 ## Decision
 
 | Layer | Tests |
 |---|---|
-| Ingest (api) | pytest on a tiny synthetic cube with known values: block averaging, symmetric stretch around 0 K, 0 K → midpoint |
+| Ingest (`data/`) | pytest on a tiny synthetic cube with known values: block averaging, symmetric stretch around 0 K, 0 K → midpoint |
 | GraphQL (api) | Strawberry test client against resolvers |
 | Binary routes (api) | Flask test client |
 | Pure functions (web) | Vitest: stretch, frequency ↔ redshift, colormap lookup |

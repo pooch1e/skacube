@@ -5,7 +5,7 @@
 
 ## Context
 
-The raw cube is 981 MB: over GitHub's 100 MB file limit. After ingest ([ADR 0013](0013-one-time-ingest.md)) and [ADR 0020](0020-browser-channel-slice.md), the processed output is one ~17 MB volume (smaller compressed) plus small JSON.
+The raw cube is 981 MB: over GitHub's 100 MB file limit. After ingest ([ADR 0028](0028-standalone-ingest-script.md)) and [ADR 0020](0020-browser-channel-slice.md), the processed output is one ~17 MB volume (smaller compressed) plus small JSON.
 
 ## Options
 
