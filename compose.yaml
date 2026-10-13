@@ -1,0 +1,23 @@
+# Full stack in one command: `docker compose up --build`.
+# Browse http://localhost:3000. See docs/docker.md.
+services:
+  api:
+    build: ./api
+    ports:
+      - "3001:3001"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://127.0.0.1:3001/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  web:
+    build:
+      context: ./web
+      args:
+        API_URL: http://api:3001
+    ports:
+      - "3000:3000"
+    depends_on:
+      api:
+        condition: service_healthy
