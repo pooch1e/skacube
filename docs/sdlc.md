@@ -1,6 +1,6 @@
 # SDLC
 
-How Skycube is built, tested and shipped.
+How Skacube is built, tested and shipped.
 
 ## Workflow
 
@@ -11,7 +11,7 @@ How Skycube is built, tested and shipped.
 ## Repo
 
 ```
-skycube/
+skacube/
 ├── web/    Next.js app
 ├── api/    Flask API and ingest
 ├── data/   raw/ (git-ignored), processed/ (committed)

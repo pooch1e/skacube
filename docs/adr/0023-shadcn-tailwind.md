@@ -1,4 +1,4 @@
-# 0023. shadcn/ui primitives, styled with Skycube tokens
+# 0023. shadcn/ui primitives, styled with Skacube tokens
 
 - Status: Accepted
 - Date: 2026-10-12
@@ -15,7 +15,7 @@ The viewer needs accessible primitives: sliders, toggles, tabs, tooltips, dialog
 
 ## Decision
 
-shadcn/ui on Tailwind CSS. Its theme variables map to the [Skycube tokens](../design/README.md), so both themes come from one source.
+shadcn/ui on Tailwind CSS. Its theme variables map to the [Skacube tokens](../design/README.md), so both themes come from one source.
 
 ## Consequences
 

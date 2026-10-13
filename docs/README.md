@@ -1,6 +1,6 @@
-# Skycube design docs
+# Skacube design docs
 
-Skycube is a portfolio web app for exploring radio astronomy FITS data cubes in 3D. These docs are the design document for it: what it is, how it fits together, and why each decision was made.
+Skacube is a portfolio web app for exploring radio astronomy FITS data cubes in 3D. These docs are the design document for it: what it is, how it fits together, and why each decision was made.
 
 Status: **planning**. Sections marked _Open_ are still being decided.
 
@@ -19,7 +19,7 @@ Status: **planning**. Sections marked _Open_ are still being decided.
 
 ## Design
 
-- [Design system](design/README.md): Skycube tokens, type and components
+- [Design system](design/README.md): Skacube tokens, type and components
 
 ## Planning
 

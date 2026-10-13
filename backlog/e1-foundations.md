@@ -22,7 +22,7 @@ Tasks:
 As a developer, I can run, lint, type-check and test the API with one command each.
 
 Acceptance:
-- `uv run flask --app skycube run` starts an app returning `200` on `/health`
+- `uv run flask --app skacube run` starts an app returning `200` on `/health`
 - `ruff check`, `ruff format --check`, `mypy`, `pytest` all pass
 
 Tasks:

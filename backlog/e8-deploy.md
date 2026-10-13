@@ -8,7 +8,7 @@ A live link. Blocked on the hosting decision ([ADR 0019](../docs/adr/0019-local-
 
 ## S8.2 Deploy
 
-As a visitor, I can open Skycube at a public URL.
+As a visitor, I can open Skacube at a public URL.
 
 Acceptance:
 - Web and API deployed from `main` by CI after checks pass

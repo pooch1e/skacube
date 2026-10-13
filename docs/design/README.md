@@ -1,6 +1,6 @@
 # Design system
 
-The full, browsable system is the Skycube design system artifact: https://claude.ai/artifact/QtVJAN6HPdFzh26941Mwi4 (private until shared). This page summarises it.
+The full, browsable system is the Skacube design system artifact: https://claude.ai/artifact/QtVJAN6HPdFzh26941Mwi4 (private until shared). This page summarises it.
 
 ## Principles
 
