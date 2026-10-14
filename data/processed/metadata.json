@@ -1,0 +1,62 @@
+{
+  "header": {
+    "SIMPLE": true,
+    "BITPIX": -32,
+    "NAXIS": 3,
+    "NAXIS1": 512,
+    "NAXIS2": 512,
+    "NAXIS3": 936,
+    "EXTEND": true,
+    "CTYPE1": "RA---SIN",
+    "CTYPE2": "DEC--SIN",
+    "CTYPE3": "FREQ",
+    "CRVAL1": 0.0,
+    "CRVAL2": -30.0,
+    "CRVAL3": 106000000.0,
+    "CRPIX1": 256.0,
+    "CRPIX2": 256.0,
+    "CRPIX3": 1,
+    "CDELT1": -0.015625,
+    "CDELT2": 0.015625,
+    "CDELT3": 100000.0,
+    "CUNIT1": "deg",
+    "CUNIT2": "deg",
+    "CUNIT3": "Hz",
+    "BUNIT": "K"
+  },
+  "axes": {
+    "ra": {
+      "centre_deg": 0.0,
+      "step_deg": -0.03125
+    },
+    "dec": {
+      "centre_deg": -30.0,
+      "step_deg": 0.03125
+    },
+    "frequency": {
+      "start_mhz": 106.1328125,
+      "step_mhz": 0.36562500000000003
+    }
+  },
+  "redshift": {
+    "start": 12.383285699396689,
+    "end": 6.124571347870371
+  },
+  "source_shape": {
+    "freq": 936,
+    "dec": 512,
+    "ra": 512
+  },
+  "output_shape": {
+    "freq": 256,
+    "dec": 256,
+    "ra": 256
+  },
+  "stretch": {
+    "limit_k": 0.1447591781616211,
+    "softening_k": 0.007237958908081055,
+    "zero_byte": 128
+  },
+  "raw_sha256": "8d41d89f934b5be9d190b0bd651daecb239b4f4b8e0815ae1a40c5f6d18d5b60",
+  "volume_sha256": "612ebc4bcca9dcfce90e848b15649647ef82c676b5e3e01ae2156d8ee2e1910f"
+}
