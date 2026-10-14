@@ -15,11 +15,10 @@ import json
 import sys
 from pathlib import Path
 
+import ingest
 import numpy as np
 import pytest
 from astropy.io import fits
-
-import ingest
 
 FIXTURE_DIR = Path(__file__).parent / "fixtures"
 
