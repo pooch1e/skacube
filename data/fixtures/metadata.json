@@ -1,0 +1,61 @@
+{
+  "header": {
+    "SIMPLE": true,
+    "BITPIX": -32,
+    "NAXIS": 3,
+    "NAXIS1": 16,
+    "NAXIS2": 16,
+    "NAXIS3": 32,
+    "CTYPE1": "RA---SIN",
+    "CTYPE2": "DEC--SIN",
+    "CTYPE3": "FREQ",
+    "CRPIX1": 8.5,
+    "CRPIX2": 8.5,
+    "CRPIX3": 1.0,
+    "CRVAL1": 0.0,
+    "CRVAL2": -30.0,
+    "CRVAL3": 106000000.0,
+    "CDELT1": -0.015625,
+    "CDELT2": 0.015625,
+    "CDELT3": 100000.0,
+    "CUNIT1": "deg",
+    "CUNIT2": "deg",
+    "CUNIT3": "Hz",
+    "BUNIT": "K"
+  },
+  "axes": {
+    "ra": {
+      "centre_deg": 0.0,
+      "step_deg": -0.015625
+    },
+    "dec": {
+      "centre_deg": -30.0,
+      "step_deg": 0.015625
+    },
+    "frequency": {
+      "start_mhz": 106.05,
+      "step_mhz": 0.2
+    }
+  },
+  "redshift": {
+    "start": 12.393736461744462,
+    "end": 12.025270534323706
+  },
+  "source_shape": {
+    "freq": 32,
+    "dec": 16,
+    "ra": 16
+  },
+  "output_shape": {
+    "freq": 16,
+    "dec": 16,
+    "ra": 16
+  },
+  "stretch": {
+    "limit_k": 0.13420382142066956,
+    "softening_k": 0.0067101910710334785,
+    "zero_byte": 128
+  },
+  "raw_sha256": "3e19e1a6b5b27173b47dd8790256a674969113b3fb63bb9f5172789de072e7e8",
+  "volume_sha256": "9953312dcb6ed133dd472acee005ba7984bb7fbde27db2b5a42c3432881f7d6c"
+}

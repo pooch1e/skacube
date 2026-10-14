@@ -1,0 +1,187 @@
+# /// script
+# requires-python = ">=3.12"
+# dependencies = ["astropy", "numpy", "pytest"]
+# ///
+"""Tests for ingest.py, run with `uv run data/test_ingest.py`.
+
+Cubes are built in FITS order: numpy shape is (freq, dec, ra), so RA is the
+fastest axis, as in the real file. The values are signed, negative at low
+frequency, positive in the middle and exactly zero at the top, mirroring the
+real cube's absorption -> emission -> fully-ionised sequence.
+"""
+
+import gzip
+import json
+import sys
+from pathlib import Path
+
+import numpy as np
+import pytest
+from astropy.io import fits
+
+import ingest
+
+FIXTURE_DIR = Path(__file__).parent / "fixtures"
+
+FREQ_START_HZ = 106.0e6
+FREQ_STEP_HZ = 0.1e6
+
+
+def make_synthetic_cube(
+    shape: tuple[int, int, int] = (32, 16, 16),
+) -> tuple[np.ndarray, fits.Header]:
+    """Return a float32 cube of numpy shape (nfreq, ndec, nra) and a header matching the real file's layout."""
+    nfreq, ndec, nra = shape
+    rng = np.random.default_rng(0)
+    ramp = np.linspace(-0.13, 0.03, nfreq * 3 // 4, dtype=np.float32)
+    ramp = np.pad(ramp, (0, nfreq - ramp.size))[:, None, None]
+    data = (ramp + rng.normal(0, 0.005, shape)).astype(np.float32)
+    data[nfreq * 3 // 4 :] = 0.0
+    data[nfreq // 2, :2, :2] = 0.0
+
+    header = fits.Header()
+    header["BITPIX"] = -32
+    header["NAXIS"] = 3
+    header["NAXIS1"] = nra
+    header["NAXIS2"] = ndec
+    header["NAXIS3"] = nfreq
+    header["CTYPE1"] = "RA---SIN"
+    header["CTYPE2"] = "DEC--SIN"
+    header["CTYPE3"] = "FREQ"
+    header["CRPIX1"] = (nra + 1) / 2
+    header["CRPIX2"] = (ndec + 1) / 2
+    header["CRPIX3"] = 1.0
+    header["CRVAL1"] = 0.0
+    header["CRVAL2"] = -30.0
+    header["CRVAL3"] = FREQ_START_HZ
+    header["CDELT1"] = -0.015625
+    header["CDELT2"] = 0.015625
+    header["CDELT3"] = FREQ_STEP_HZ
+    header["CUNIT1"] = "deg"
+    header["CUNIT2"] = "deg"
+    header["CUNIT3"] = "Hz"
+    header["BUNIT"] = "K"
+    return data, header
+
+
+def test_synthetic_cube_has_real_file_layout():
+    data, header = make_synthetic_cube()
+    assert data.shape == (32, 16, 16)
+    assert data.dtype == np.float32
+    assert header["CTYPE3"] == "FREQ"
+    assert header["BUNIT"] == "K"
+    assert header["NAXIS3"] == data.shape[0]
+
+
+def test_synthetic_cube_is_signed_with_exact_zeros():
+    data, _ = make_synthetic_cube()
+    assert data.min() < 0 < data.max()
+    assert (data == 0.0).any()
+
+
+def test_shape_is_a_parameter():
+    data, header = make_synthetic_cube((8, 4, 6))
+    assert data.shape == (8, 4, 6)
+    assert (header["NAXIS1"], header["NAXIS2"], header["NAXIS3"]) == (6, 4, 8)
+
+
+def write_fits(path, data, header):
+    fits.PrimaryHDU(data=data, header=header).writeto(path)
+    return path
+
+
+def test_weights_rows_sum_to_one():
+    for n_in, n_out in [(936, 256), (512, 256), (3, 2), (32, 16)]:
+        w = ingest.overlap_weights(n_in, n_out)
+        assert w.shape == (n_out, n_in)
+        np.testing.assert_allclose(w.sum(axis=1), 1.0)
+
+
+def test_weights_fractional_overlap():
+    np.testing.assert_allclose(
+        ingest.overlap_weights(3, 2), [[2 / 3, 1 / 3, 0], [0, 1 / 3, 2 / 3]]
+    )
+    np.testing.assert_allclose(
+        ingest.overlap_weights(4, 2), [[0.5, 0.5, 0, 0], [0, 0, 0.5, 0.5]]
+    )
+
+
+def test_block_average_is_not_strided():
+    data = np.zeros((4, 4, 4), dtype=np.float32)
+    data[0, 0, 0] = 8.0
+    out = ingest.block_average(data, (2, 2, 2))
+    assert out[0, 0, 0] == pytest.approx(1.0)
+    assert out.sum() == pytest.approx(1.0)
+
+
+def test_block_average_uneven_frequency():
+    data = np.arange(3, dtype=np.float32)[:, None, None] * np.ones((3, 2, 2), np.float32)
+    out = ingest.block_average(data, (2, 2, 2))
+    np.testing.assert_allclose(out[:, 0, 0], [1 / 3, 5 / 3], rtol=1e-6)
+
+
+def test_zero_kelvin_maps_to_byte_128():
+    values = np.array([-0.13, -1e-4, 0.0, 1e-4, 0.13])
+    out = ingest.to_bytes(values, limit=0.13, softening=0.0065)
+    assert out[2] == 128
+    assert out[0] == 1 and out[-1] == 255
+    assert np.all(np.diff(out.astype(int)) > 0)
+    assert int(out[0]) + int(out[-1]) == 256
+
+
+def test_clips_beyond_limit():
+    out = ingest.to_bytes(np.array([-5.0, 5.0]), limit=0.1, softening=0.005)
+    assert list(out) == [1, 255]
+
+
+def test_rejects_wrong_axis_order(tmp_path):
+    data, header = make_synthetic_cube()
+    header["CTYPE3"] = "VELO"
+    with pytest.raises(SystemExit, match="FREQ"):
+        ingest.validate(header)
+
+
+def test_end_to_end_orientation_and_byte_order(tmp_path):
+    data, header = make_synthetic_cube((4, 4, 4))
+    data[:] = 0.0
+    data[1, 0, 3] = 0.1
+    data[2, 0, 0] = -0.1
+    path = write_fits(tmp_path / "cube.fits", data, header)
+    meta = ingest.ingest(path, tmp_path / "out", target=(4, 4, 4))
+    volume = np.frombuffer(
+        gzip.decompress((tmp_path / "out" / "volume.u8.gz").read_bytes()), np.uint8
+    ).reshape(4, 4, 4)
+    assert volume[1, 3, 3] == 255
+    assert volume[2, 3, 0] == 1
+    assert volume[0].min() == volume[0].max() == 128
+    assert meta["output_shape"] == {"freq": 4, "dec": 4, "ra": 4}
+
+
+def test_metadata_matches_files(tmp_path):
+    data, header = make_synthetic_cube()
+    path = write_fits(tmp_path / "cube.fits", data, header)
+    ingest.ingest(path, tmp_path / "out", target=(16, 16, 16))
+    meta = json.loads((tmp_path / "out" / "metadata.json").read_text())
+    assert meta["source_shape"] == {"freq": 32, "dec": 16, "ra": 16}
+    assert meta["axes"]["frequency"]["step_mhz"] == pytest.approx(0.2)
+    assert meta["axes"]["frequency"]["start_mhz"] == pytest.approx(106.05)
+    assert meta["redshift"]["start"] > meta["redshift"]["end"]
+    raw = gzip.decompress((tmp_path / "out" / "volume.u8.gz").read_bytes())
+    assert len(raw) == 16**3
+
+
+def write_fixture():
+    """Regenerate the tiny committed output used by API tests and e2e."""
+    import tempfile
+
+    data, header = make_synthetic_cube()
+    with tempfile.TemporaryDirectory() as tmp:
+        path = write_fits(Path(tmp) / "synthetic.fits", data, header)
+        ingest.ingest(path, FIXTURE_DIR, target=(16, 16, 16))
+
+
+if __name__ == "__main__":
+    if "--fixture" in sys.argv:
+        write_fixture()
+    else:
+        sys.exit(pytest.main([__file__, *sys.argv[1:]]))

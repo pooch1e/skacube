@@ -40,6 +40,10 @@ cd web && pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm 
 | `docs/` | Overview, architecture, design, background, ADRs |
 | `backlog/` | Epics, stories and tasks |
 
+## Data
+
+The dataset is SKAO's simulated 21 cm Epoch of Reionisation cube (Bonaldi et al. 2025, [arXiv:2503.11740](https://arxiv.org/abs/2503.11740)), downloaded from the [SKA-Low page](https://www.skao.int/en/science-users/170/simulated-data-products/ska-low-eor). The 981 MB raw file is not committed. `uv run data/ingest.py <fits>` reduces it to a 256³ volume of about 10 MB, which is. See [data/README.md](data/README.md).
+
 ## Decisions and design
 
 - In this demonstration I have ingested and compressed the FITS file locally, then have committed the compressed file. In a real life situation, this would have to be hosted somewhere, accessed probably with a presigned URL, processed as a batch job then streamed to client in a blob or chunks. The files are far too big to download and display in the client. 
