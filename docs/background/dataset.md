@@ -38,3 +38,15 @@ A simulated, noise-free ("truth") model of neutral hydrogen during the **Epoch o
 - Published by SKAO as part of **SKA Science Data Challenge 3a**: https://www.skao.int/en/science-users/170/simulated-data-products/ska-low-eor (direct download, no registration).
 - Cite Bonaldi et al. (2025), arXiv:2503.11740. No licence is stated. See [ADR 0017](../adr/0017-dataset-provenance.md).
 - SHA-256: `8d41d89f934b5be9d190b0bd651daecb239b4f4b8e0815ae1a40c5f6d18d5b60`
+
+## Processed output
+
+From `data/ingest.py` on the real file (2026-10-14, 256³, about 2.4 s, peak RSS about 1.1 GB with the file memory-mapped):
+
+| File | Size |
+|---|---|
+| `volume.u8` (uncompressed) | 16,777,216 bytes (16 MiB) |
+| `volume.u8.gz` (committed) | 9,923,046 bytes (9.5 MiB) |
+| `metadata.json` | 1,277 bytes |
+
+Stretch: clip at ±0.1448 K (99.9th percentile of |T|), asinh softening 0.00724 K. Volume SHA-256 (uncompressed): `612ebc4bcca9dcfce90e848b15649647ef82c676b5e3e01ae2156d8ee2e1910f`.
