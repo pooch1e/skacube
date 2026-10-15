@@ -4,7 +4,7 @@
 # ///
 """Turn the EoR 21 cm FITS cube into a small uint8 volume plus metadata (ADR 0028).
 
-Run once with `uv run data/ingest.py <fits> [--out data/processed] [--size 256]`.
+Run once with `uv run data/ingest.py <fits> [--out data/processed/eor-h21cm] [--size 256]`.
 
 Pipeline: memory-map the cube, check it has three axes with FREQ third, block-average
 down to size^3 using fractional-overlap weights (936 channels do not divide into 256),
@@ -25,6 +25,12 @@ import numpy as np
 from astropy.io import fits
 
 HI_REST_MHZ = 1420.405751768
+DATASET_INFO = {
+    "id": "eor-h21cm",
+    "title": "Epoch of Reionisation 21 cm brightness temperature (SKA SDC3a, truth)",
+    "source_url": "https://www.skao.int/en/science-users/170/simulated-data-products/ska-low-eor",
+    "citation": "Bonaldi et al. (2025), arXiv:2503.11740",
+}
 ZERO_BYTE = 128
 CLIP_PERCENTILE = 99.9
 SOFTENING_FRACTION = 0.05
@@ -97,6 +103,7 @@ def build_metadata(
     softening: float,
     raw_sha256: str,
     volume_sha256: str,
+    info: dict[str, str],
 ) -> dict:
     nfreq, ndec, nra = source_shape
     factors = (nfreq / target[0], ndec / target[1], nra / target[2])
@@ -105,6 +112,7 @@ def build_metadata(
     freq_start_mhz = first_hz / 1e6 + (factors[0] - 1) / 2 * header["CDELT3"] / 1e6
     freq_end_mhz = freq_start_mhz + freq_step_mhz * (target[0] - 1)
     return {
+        **info,
         "header": {
             k: header[k]
             for k in header
@@ -132,7 +140,13 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
-def ingest(fits_path: Path, out_dir: Path, size: int = 256, target: tuple[int, int, int] | None = None) -> dict:
+def ingest(
+    fits_path: Path,
+    out_dir: Path,
+    size: int = 256,
+    target: tuple[int, int, int] | None = None,
+    info: dict[str, str] = DATASET_INFO,
+) -> dict:
     started = time.perf_counter()
     target = target or (size, size, size)
     raw_sha256 = sha256_file(fits_path)
@@ -151,7 +165,14 @@ def ingest(fits_path: Path, out_dir: Path, size: int = 256, target: tuple[int, i
     with volume_path.open("wb") as f, gzip.GzipFile(fileobj=f, mode="wb", mtime=0) as gz:
         gz.write(raw_bytes)
     metadata = build_metadata(
-        header, source_shape, target, limit, softening, raw_sha256, hashlib.sha256(raw_bytes).hexdigest()
+        header,
+        source_shape,
+        target,
+        limit,
+        softening,
+        raw_sha256,
+        hashlib.sha256(raw_bytes).hexdigest(),
+        info,
     )
     metadata_path = out_dir / "metadata.json"
     metadata_path.write_text(json.dumps(metadata, indent=2) + "\n")
@@ -168,7 +189,7 @@ def ingest(fits_path: Path, out_dir: Path, size: int = 256, target: tuple[int, i
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("fits", type=Path)
-    parser.add_argument("--out", type=Path, default=Path(__file__).parent / "processed")
+    parser.add_argument("--out", type=Path, default=Path(__file__).parent / "processed" / DATASET_INFO["id"])
     parser.add_argument("--size", type=int, default=256)
     args = parser.parse_args()
     ingest(args.fits, args.out, args.size)
