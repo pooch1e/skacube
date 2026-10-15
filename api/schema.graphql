@@ -1,0 +1,48 @@
+type Axis {
+  name: String!
+  unit: String!
+  start: Float
+  step: Float
+  length: Int!
+  redshift: RedshiftRange
+}
+
+type Dataset {
+  id: String!
+  title: String!
+  unit: String!
+  shape: Shape!
+  axes: [Axis!]!
+  stretch: Stretch!
+  header: [HeaderCard!]!
+  sourceUrl: String!
+  citation: String!
+  volumeSha256: String!
+}
+
+type HeaderCard {
+  key: String!
+  value: String!
+}
+
+type Query {
+  datasets: [Dataset!]!
+  dataset(id: String!): Dataset
+}
+
+type RedshiftRange {
+  start: Float
+  end: Float
+}
+
+type Shape {
+  ra: Int!
+  dec: Int!
+  frequency: Int!
+}
+
+type Stretch {
+  limitK: Float
+  softeningK: Float
+  zeroByte: Int!
+}
