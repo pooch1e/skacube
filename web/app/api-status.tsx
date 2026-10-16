@@ -28,7 +28,7 @@ export function ApiStatus() {
   }, []);
 
   return (
-    <p role="status" className="font-mono text-sm">
+    <p role="status" className="font-mono text-data tabular-nums">
       API: <span data-testid="api-health">{labels[health]}</span>
     </p>
   );
