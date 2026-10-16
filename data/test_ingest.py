@@ -170,9 +170,17 @@ def test_metadata_matches_files(tmp_path):
     assert meta["source_shape"] == {"freq": 32, "dec": 16, "ra": 16}
     assert meta["axes"]["frequency"]["step_mhz"] == pytest.approx(0.2)
     assert meta["axes"]["frequency"]["start_mhz"] == pytest.approx(106.05)
+    assert meta["axes"]["dec"]["start_deg"] == pytest.approx(-30.0 - 7.5 * 0.015625)
+    assert meta["axes"]["ra"]["start_deg"] == pytest.approx(7.5 * 0.015625)
     assert meta["redshift"]["start"] > meta["redshift"]["end"]
     raw = gzip.decompress((tmp_path / "out" / "volume.u8.gz").read_bytes())
     assert len(raw) == 16**3
+
+
+def test_axis_start_follows_crpix_not_the_centre():
+    _, header = make_synthetic_cube((4, 512, 512))
+    header["CRPIX1"] = 256.0
+    assert ingest.first_bin_centre(header, 1, 2.0) == pytest.approx(255 * 0.015625 - 0.0078125)
 
 
 def write_fixture():

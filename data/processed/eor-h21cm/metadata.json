@@ -31,10 +31,12 @@
   "axes": {
     "ra": {
       "centre_deg": 0.0,
+      "start_deg": 3.9765625,
       "step_deg": -0.03125
     },
     "dec": {
       "centre_deg": -30.0,
+      "start_deg": -33.9765625,
       "step_deg": 0.03125
     },
     "frequency": {

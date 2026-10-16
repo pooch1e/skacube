@@ -95,6 +95,12 @@ def redshift(freq_mhz: float) -> float:
     return HI_REST_MHZ / freq_mhz - 1
 
 
+def first_bin_centre(header: fits.Header, axis: int, factor: float) -> float:
+    """World coordinate of the first output bin centre: FITS pixel 1 plus half a bin."""
+    delta = header[f"CDELT{axis}"]
+    return header[f"CRVAL{axis}"] + (1 - header[f"CRPIX{axis}"]) * delta + (factor - 1) / 2 * delta
+
+
 def build_metadata(
     header: fits.Header,
     source_shape: tuple[int, int, int],
@@ -111,6 +117,8 @@ def build_metadata(
     first_hz = header["CRVAL3"] + (1 - header["CRPIX3"]) * header["CDELT3"]
     freq_start_mhz = first_hz / 1e6 + (factors[0] - 1) / 2 * header["CDELT3"] / 1e6
     freq_end_mhz = freq_start_mhz + freq_step_mhz * (target[0] - 1)
+    ra_start_deg = first_bin_centre(header, 1, factors[2])
+    dec_start_deg = first_bin_centre(header, 2, factors[1])
     return {
         **info,
         "header": {
@@ -119,8 +127,16 @@ def build_metadata(
             if k not in ("COMMENT", "HISTORY", "") and isinstance(header[k], (str, int, float, bool))
         },
         "axes": {
-            "ra": {"centre_deg": header["CRVAL1"], "step_deg": header["CDELT1"] * factors[2]},
-            "dec": {"centre_deg": header["CRVAL2"], "step_deg": header["CDELT2"] * factors[1]},
+            "ra": {
+                "centre_deg": header["CRVAL1"],
+                "start_deg": ra_start_deg,
+                "step_deg": header["CDELT1"] * factors[2],
+            },
+            "dec": {
+                "centre_deg": header["CRVAL2"],
+                "start_deg": dec_start_deg,
+                "step_deg": header["CDELT2"] * factors[1],
+            },
             "frequency": {"start_mhz": freq_start_mhz, "step_mhz": freq_step_mhz},
         },
         "redshift": {"start": redshift(freq_start_mhz), "end": redshift(freq_end_mhz)},
