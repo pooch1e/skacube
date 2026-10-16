@@ -55,7 +55,7 @@ def test_axes_have_unit_start_step_and_length(app: Flask) -> None:
     assert list(axes) == ["ra", "dec", "frequency"]
     assert axes["dec"]["unit"] == "deg"
     assert axes["dec"]["length"] == 16
-    assert axes["dec"]["start"] == pytest.approx(-30.0 - 0.015625 * 15 / 2)
+    assert axes["dec"]["start"] == pytest.approx(-30.0 - 0.015625 * 7.5)
     assert axes["frequency"]["unit"] == "MHz"
     assert axes["frequency"]["start"] == pytest.approx(106.05)
     assert axes["frequency"]["step"] == pytest.approx(0.2)

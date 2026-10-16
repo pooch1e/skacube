@@ -86,8 +86,7 @@ def to_graphql(dataset: Dataset) -> DatasetType:
                 start=finite(meta["redshift"]["start"]), end=finite(meta["redshift"]["end"])
             )
         else:
-            step = axis_meta["step_deg"]
-            start = axis_meta["centre_deg"] - step * (length - 1) / 2
+            start, step = axis_meta["start_deg"], axis_meta["step_deg"]
             redshift = None
         axes.append(
             Axis(
