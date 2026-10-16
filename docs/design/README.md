@@ -25,7 +25,7 @@ The full, browsable system is the Skacube design system artifact: https://claude
 | `accent` | `#a8d8ff` | `#bfe3ff` | Primary fill, selection, crosshair |
 | `on-accent` | `#08071c` | `#14122b` | Text on accent |
 
-Plus device states (`state-on`, `state-standby`, `state-moving`, `state-alarm`, `state-fault`, `state-neutral`), a six-stop sequential data colormap (`cmap-0` to `cmap-5`), a diverging colormap for signed data (`cmap-div-*`, to be added: [ADR 0015](../adr/0015-diverging-colormap.md)), and two shadows (`shadow-elevation`, `shadow-md`; `none` in Night).
+Plus a six-stop sequential data colormap (`cmap-0` to `cmap-5`), a diverging colormap for signed data (`cmap-div-*`, to be added: [ADR 0015](../adr/0015-diverging-colormap.md)), and two shadows (`shadow-elevation`, `shadow-md`; `none` in Night).
 
 ## Type
 
@@ -40,4 +40,8 @@ Plus device states (`state-on`, `state-standby`, `state-moving`, `state-alarm`, 
 
 ## Components
 
-Button, StateChip, Readout, FitsHeader, Colormap, Panel.
+Button, Readout, FitsHeader, Colormap, Panel.
+
+## In code
+
+Tokens live in [`web/app/tokens.css`](../../web/app/tokens.css) as `--sk-*` variables, with Night on `:root` and Day on `[data-theme="day"]`. [`globals.css`](../../web/app/globals.css) maps them into the Tailwind theme (`bg-ground`, `text-ink-muted`, `font-display`, `text-readout`, …) and onto shadcn's variables. Skacube `accent` is shadcn `primary`, and shadcn's own `accent` is a hover fill.

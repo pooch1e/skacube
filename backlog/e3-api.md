@@ -40,7 +40,7 @@ Acceptance:
 
 Tasks:
 - [x] T3.3.1 Schema export command — S
-- [ ] T3.3.2 `contract` workflow (needs E4 codegen) — S
+- [x] T3.3.2 `contract` workflow (needs E4 codegen) — S
 
 ## S3.4 Configuration
 
