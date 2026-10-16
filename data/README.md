@@ -11,8 +11,8 @@ The viewer renders a simulated 21 cm Epoch of Reionisation cube from SKAO's Scie
 | Path | What |
 |---|---|
 | `ingest.py` | One-off script: FITS cube to `processed/` |
-| `processed/` | `volume.u8.gz` and `metadata.json` from the real cube, committed once ([ADR 0021](../docs/adr/0021-data-storage.md)) |
-| `fixtures/` | Tiny output from a synthetic cube, for API tests and e2e |
+| `processed/<id>/` | `volume.u8.gz` and `metadata.json` from the real cube, committed once ([ADR 0021](../docs/adr/0021-data-storage.md)) |
+| `fixtures/synthetic/` | Tiny output from a synthetic cube, for API tests and e2e |
 | `test_ingest.py` | Tests for the ingest maths; also builds the synthetic cube |
 
 The raw FITS file is not committed. Keep it in `data/raw/` (git-ignored) or anywhere else.
@@ -20,9 +20,9 @@ The raw FITS file is not committed. Keep it in `data/raw/` (git-ignored) or anyw
 ## Re-running
 
 ```bash
-uv run data/ingest.py path/to/EoR_H21cm_truth.fits   # writes data/processed/
+uv run data/ingest.py path/to/EoR_H21cm_truth.fits   # writes data/processed/eor-h21cm/
 uv run data/test_ingest.py                            # tests
-uv run data/test_ingest.py --fixture                  # regenerate data/fixtures/
+uv run data/test_ingest.py --fixture                  # regenerate data/fixtures/synthetic/
 ```
 
 Dependencies (`astropy`, `numpy`) are declared inline in the script ([ADR 0028](../docs/adr/0028-standalone-ingest-script.md)). The script prints the raw file's SHA-256; compare it with the value above. Re-ingesting the real cube adds another ~10 MB to git history, so only do it when the processing changes.

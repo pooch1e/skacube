@@ -5,6 +5,11 @@ services:
     build: ./api
     ports:
       - "3001:3001"
+    environment:
+      SKACUBE_DATA_DIR: /data
+      SKACUBE_ALLOWED_ORIGIN: http://localhost:3000
+    volumes:
+      - ./data/processed:/data:ro
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://127.0.0.1:3001/health')"]
       interval: 10s

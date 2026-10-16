@@ -13,9 +13,9 @@ Acceptance:
 - NaN values serialise as `null`
 
 Tasks:
-- [ ] T3.1.1 Strawberry schema and `/graphql` route — M
-- [ ] T3.1.2 Loader reading `data/processed/*/metadata.json` at startup — S
-- [ ] T3.1.3 Resolver tests with Strawberry's test client — S
+- [x] T3.1.1 Strawberry schema and `/graphql` route — M
+- [x] T3.1.2 Loader reading `data/processed/*/metadata.json` at startup — S
+- [x] T3.1.3 Resolver tests with Strawberry's test client — S
 
 ## S3.2 Volume route
 
@@ -27,8 +27,8 @@ Acceptance:
 - `404` for unknown ids
 
 Tasks:
-- [ ] T3.2.1 Route with headers and conditional GET — S
-- [ ] T3.2.2 Flask test-client tests — S
+- [x] T3.2.1 Route with headers and conditional GET — S
+- [x] T3.2.2 Flask test-client tests — S
 
 ## S3.3 Schema contract
 
@@ -39,7 +39,7 @@ Acceptance:
 - `contract` CI job regenerates schema and client types and fails on diff
 
 Tasks:
-- [ ] T3.3.1 Schema export command — S
+- [x] T3.3.1 Schema export command — S
 - [ ] T3.3.2 `contract` workflow (needs E4 codegen) — S
 
 ## S3.4 Configuration
@@ -47,4 +47,4 @@ Tasks:
 As an operator, I configure the API from the environment.
 
 Tasks:
-- [ ] T3.4.1 Settings from env (data dir, allowed origin); no secrets in repo — S
+- [x] T3.4.1 Settings from env (data dir, allowed origin); no secrets in repo — S

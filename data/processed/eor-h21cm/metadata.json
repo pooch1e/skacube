@@ -1,4 +1,8 @@
 {
+  "id": "eor-h21cm",
+  "title": "Epoch of Reionisation 21 cm brightness temperature (SKA SDC3a, truth)",
+  "source_url": "https://www.skao.int/en/science-users/170/simulated-data-products/ska-low-eor",
+  "citation": "Bonaldi et al. (2025), arXiv:2503.11740",
   "header": {
     "SIMPLE": true,
     "BITPIX": -32,
