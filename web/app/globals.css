@@ -1,30 +1,137 @@
 /**
- * Global styles — Tailwind entry point and placeholder theme variables,
- * replaced by Skacube tokens in E4.
+ * Global styles — Tailwind entry point. Skacube tokens (tokens.css) feed both
+ * the Tailwind theme and the shadcn semantic variables, so every utility and
+ * primitive switches between Night and Day from one source.
+ *
+ * Mapping notes: Skacube `accent` is shadcn `primary` (`bg-primary`); shadcn
+ * `accent` is its hover fill, mapped to `surface`. Tailwind's 4px `--spacing`
+ * base already matches the `space-*` scale (`p-4` = `space-4`). `destructive`
+ * has no Skacube token yet and is ink until T4.2.2 restyles the primitives.
  */
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "./tokens.css";
+
+@custom-variant dark (&:where([data-theme="night"], [data-theme="night"] *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: var(--sk-ground);
+  --foreground: var(--sk-ink);
+  --card: var(--sk-surface);
+  --card-foreground: var(--sk-ink);
+  --popover: var(--sk-surface);
+  --popover-foreground: var(--sk-ink);
+  --primary: var(--sk-accent);
+  --primary-foreground: var(--sk-on-accent);
+  --secondary: var(--sk-surface);
+  --secondary-foreground: var(--sk-ink);
+  --muted: var(--sk-surface);
+  --muted-foreground: var(--sk-ink-muted);
+  --accent: var(--sk-surface);
+  --accent-foreground: var(--sk-ink);
+  --destructive: var(--sk-ink);
+  --border: var(--sk-line);
+  --input: var(--sk-ink-muted);
+  --ring: var(--sk-ink);
+  --radius: var(--sk-radius-sm);
 }
 
 @theme inline {
+  --color-ground: var(--sk-ground);
+  --color-surface: var(--sk-surface);
+  --color-line: var(--sk-line);
+  --color-ink: var(--sk-ink);
+  --color-ink-muted: var(--sk-ink-muted);
+  --color-on-accent: var(--sk-on-accent);
+  --color-cmap-0: var(--sk-cmap-0);
+  --color-cmap-1: var(--sk-cmap-1);
+  --color-cmap-2: var(--sk-cmap-2);
+  --color-cmap-3: var(--sk-cmap-3);
+  --color-cmap-4: var(--sk-cmap-4);
+  --color-cmap-5: var(--sk-cmap-5);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-display: var(--font-big-shoulders-display), "Arial Narrow", system-ui, sans-serif;
+  --font-sans: var(--font-hanken-grotesk), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-heading: var(--font-display);
+  --font-mono: var(--font-martian-mono), ui-monospace, "SF Mono", Menlo, monospace;
+
+  --text-display-xl: 96px;
+  --text-display-xl--line-height: 0.92;
+  --text-display-xl--font-weight: 800;
+  --text-display-xl--letter-spacing: -0.01em;
+  --text-display-l: 56px;
+  --text-display-l--line-height: 0.95;
+  --text-display-l--font-weight: 800;
+  --text-display-m: 32px;
+  --text-display-m--line-height: 1.05;
+  --text-display-m--font-weight: 700;
+  --text-title: 20px;
+  --text-title--line-height: 28px;
+  --text-title--font-weight: 600;
+  --text-body: 16px;
+  --text-body--line-height: 26px;
+  --text-body-s: 14px;
+  --text-body-s--line-height: 22px;
+  --text-label: 11px;
+  --text-label--line-height: 16px;
+  --text-label--font-weight: 500;
+  --text-label--letter-spacing: 0.08em;
+  --text-data: 13px;
+  --text-data--line-height: 20px;
+  --text-readout: 28px;
+  --text-readout--line-height: 32px;
+  --text-readout--font-weight: 500;
+  --text-readout--letter-spacing: -0.02em;
+
+  --radius-none: var(--sk-radius-0);
+  --radius-xs: var(--sk-radius-sm);
+  --radius-sm: var(--sk-radius-sm);
+  --radius-md: var(--sk-radius-sm);
+  --radius-lg: var(--sk-radius-sm);
+  --radius-xl: var(--sk-radius-sm);
+  --radius-2xl: var(--sk-radius-sm);
+  --radius-3xl: var(--sk-radius-sm);
+  --radius-4xl: var(--sk-radius-sm);
+  --radius-pill: var(--sk-radius-pill);
+
+  --shadow-elevation: var(--sk-shadow-elevation);
+  --shadow-md: var(--sk-shadow-md);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring;
+  }
+  html {
+    @apply font-sans;
+  }
+  body {
+    @apply bg-background text-foreground text-body;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Unlayered on purpose: it must beat shadcn's `outline-none` utilities, because the focus ring is never removed (design system: Focus). */
+:focus-visible {
+  outline: 2px solid var(--sk-ink);
+  outline-offset: 2px;
 }

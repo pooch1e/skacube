@@ -1,0 +1,73 @@
+/**
+ * Skacube design tokens (docs/design/README.md, values from the design system
+ * artifact's tokens.json). Raw tokens are prefixed `--sk-` because shadcn
+ * already uses `--accent` for a hover fill; globals.css maps both to Tailwind.
+ *
+ * Night is the default. Day applies with `data-theme="day"` on <html> (set
+ * before paint by the inline script in layout.tsx), or from
+ * `prefers-color-scheme: light` when no theme has been resolved (no JS).
+ */
+
+:root,
+[data-theme="night"] {
+  color-scheme: dark;
+  --sk-ground: #08071c;
+  --sk-surface: #100e2b;
+  --sk-line: #2e2a5e;
+  --sk-ink: #eeedf8;
+  --sk-ink-muted: #a6a3cc;
+  --sk-accent: #a8d8ff;
+  --sk-on-accent: #08071c;
+  --sk-shadow-elevation: none;
+  --sk-shadow-md: none;
+}
+
+[data-theme="day"] {
+  color-scheme: light;
+  --sk-ground: #fbf8f1;
+  --sk-surface: #ffffff;
+  --sk-line: #e6e0d2;
+  --sk-ink: #14122b;
+  --sk-ink-muted: #5d5a72;
+  --sk-accent: #bfe3ff;
+  --sk-on-accent: #14122b;
+  --sk-shadow-elevation: 0 6px 20px rgba(20, 18, 43, 0.08);
+  --sk-shadow-md: 0 2px 6px rgba(20, 18, 43, 0.06);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    color-scheme: light;
+    --sk-ground: #fbf8f1;
+    --sk-surface: #ffffff;
+    --sk-line: #e6e0d2;
+    --sk-ink: #14122b;
+    --sk-ink-muted: #5d5a72;
+    --sk-accent: #bfe3ff;
+    --sk-on-accent: #14122b;
+    --sk-shadow-elevation: 0 6px 20px rgba(20, 18, 43, 0.08);
+    --sk-shadow-md: 0 2px 6px rgba(20, 18, 43, 0.06);
+  }
+}
+
+:root {
+  --sk-cmap-0: #0b0a26;
+  --sk-cmap-1: #3a1a6e;
+  --sk-cmap-2: #8a2a7e;
+  --sk-cmap-3: #d9503f;
+  --sk-cmap-4: #f6a13a;
+  --sk-cmap-5: #fdf1c7;
+
+  --sk-space-1: 4px;
+  --sk-space-2: 8px;
+  --sk-space-3: 12px;
+  --sk-space-4: 16px;
+  --sk-space-6: 24px;
+  --sk-space-8: 32px;
+  --sk-space-12: 48px;
+  --sk-space-20: 80px;
+
+  --sk-radius-0: 0;
+  --sk-radius-sm: 2px;
+  --sk-radius-pill: 999px;
+}

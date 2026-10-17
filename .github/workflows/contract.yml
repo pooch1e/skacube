@@ -1,0 +1,36 @@
+# Schema contract (ADR 0018, 0024): re-export the GraphQL schema from the API and
+# regenerate the web client types; fail if either differs from what is committed.
+name: contract
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: api/uv.lock
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: web/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: web/pnpm-lock.yaml
+      - run: uv sync --frozen
+        working-directory: api
+      - run: uv run flask export-schema
+        working-directory: api
+      - run: pnpm install --frozen-lockfile
+        working-directory: web
+      - run: pnpm codegen
+        working-directory: web
+      - name: Fail on drift
+        run: git diff --exit-code -- api/schema.graphql web/lib/gql
