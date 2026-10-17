@@ -13,25 +13,25 @@ Acceptance:
 - Stays above 30 fps on a mid-range laptop
 
 Tasks:
-- [ ] T5.1.1 Canvas, camera, OrbitControls, loading state — S
-- [ ] T5.1.2 Raymarch shader (front-to-back, early exit) — L
-- [ ] T5.1.3 Colormap as a 1D texture from tokens — S
-- [ ] T5.1.4 Opacity and threshold uniforms — S
+- [ ] T5.1.1 Canvas, camera, OrbitControls, loading state — S (code complete, needs browser check)
+- [ ] T5.1.2 Raymarch shader (front-to-back, early exit) — L (code complete, needs browser check)
+- [ ] T5.1.3 Colormap as a 1D texture from tokens — S (code complete, needs browser check)
+- [ ] T5.1.4 Opacity and threshold uniforms — S (code complete, needs browser check)
 
 ## S5.2 Linked channel slice
 
 As a visitor, I can step through frequency and see one slice in 2D, with its position shown in the 3D view.
 
 Acceptance:
-- Slider over 936 channels, showing frequency (MHz) and redshift
+- Slider over the volume's 256 channels (each averages about 3.7 of the 936 source channels), showing frequency (MHz) and redshift
 - 2D slice cut from the texture in the browser
 - A plane in the volume tracks the slider
 
 Tasks:
-- [ ] T5.2.1 Slice extraction from the volume bytes (pure function + tests) — S
-- [ ] T5.2.2 2D slice canvas with the colormap — M
-- [ ] T5.2.3 Slice plane in the 3D scene — S
-- [ ] T5.2.4 Frequency ↔ redshift utility + tests — S
+- [x] T5.2.1 Slice extraction from the volume bytes (pure function + tests) — S
+- [ ] T5.2.2 2D slice canvas with the colormap — M (code complete, needs browser check)
+- [ ] T5.2.3 Slice plane in the 3D scene — S (code complete, needs browser check)
+- [x] T5.2.4 Frequency ↔ redshift utility + tests — S
 
 ## S5.3 Controls and readouts
 
@@ -43,18 +43,18 @@ Acceptance:
 - All controls keyboard-operable
 
 Tasks:
-- [ ] T5.3.1 Control panel from primitives — M
-- [ ] T5.3.2 Readouts and legend — S
+- [ ] T5.3.1 Control panel from primitives — M (code complete, needs browser check)
+- [x] T5.3.2 Readouts and legend — S
 
-## S5.4 Unsupported browsers (needs decision)
+## S5.4 Unsupported browsers
 
 As a visitor without WebGL2, I still get something useful.
 
-- [ ] T5.4.1 Decide fallback behaviour (ADR) — S
-- [ ] T5.4.2 Implement it — S
+- [ ] T5.4.1 Decide fallback behaviour ([ADR 0029](../docs/adr/0029-webgl2-fallback.md), proposed, awaiting acceptance) — S
+- [ ] T5.4.2 Implement it — S (code complete, needs browser check)
 
 ## S5.5 Reduced motion
 
 As a visitor who prefers reduced motion, the volume doesn't auto-rotate.
 
-- [ ] T5.5.1 Respect `prefers-reduced-motion` — S
+- [ ] T5.5.1 Respect `prefers-reduced-motion` — S (code complete, needs browser check)

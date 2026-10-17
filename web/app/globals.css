@@ -50,6 +50,13 @@
   --color-cmap-3: var(--sk-cmap-3);
   --color-cmap-4: var(--sk-cmap-4);
   --color-cmap-5: var(--sk-cmap-5);
+  --color-cmap-div-0: var(--sk-cmap-div-0);
+  --color-cmap-div-1: var(--sk-cmap-div-1);
+  --color-cmap-div-2: var(--sk-cmap-div-2);
+  --color-cmap-div-3: var(--sk-cmap-div-3);
+  --color-cmap-div-4: var(--sk-cmap-div-4);
+  --color-cmap-div-5: var(--sk-cmap-div-5);
+  --color-cmap-div-6: var(--sk-cmap-div-6);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
