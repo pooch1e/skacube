@@ -1,0 +1,34 @@
+# End-to-end (ADR 0022, 0024, 0027): builds both images, starts the stack on
+# the synthetic cube and runs Playwright in its pinned image — the same
+# command as locally, so the render baseline matches. Reports and traces are
+# uploaded when anything fails.
+name: e2e
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Playwright against Compose
+        run: docker compose -f compose.yaml -f compose.e2e.yaml run --rm --build e2e
+        env:
+          CI: "true"
+      - name: Stack logs
+        if: failure()
+        run: docker compose -f compose.yaml -f compose.e2e.yaml logs api web
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: |
+            e2e/playwright-report/
+            e2e/test-results/
+          retention-days: 14
+      - name: Stop stack
+        if: always()
+        run: docker compose -f compose.yaml -f compose.e2e.yaml down --volumes

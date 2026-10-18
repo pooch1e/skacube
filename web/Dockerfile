@@ -16,7 +16,9 @@ COPY . .
 # next.config.ts bakes the rewrite targets in at build time, so the API
 # address must be known here, not at container start.
 ARG API_URL=http://api:3001
-ENV API_URL=$API_URL NEXT_TELEMETRY_DISABLED=1
+# Inlined into the client bundle at build time; e2e builds with "synthetic".
+ARG NEXT_PUBLIC_DATASET_ID=
+ENV API_URL=$API_URL NEXT_PUBLIC_DATASET_ID=$NEXT_PUBLIC_DATASET_ID NEXT_TELEMETRY_DISABLED=1
 RUN pnpm build
 
 FROM node:22-alpine AS runtime

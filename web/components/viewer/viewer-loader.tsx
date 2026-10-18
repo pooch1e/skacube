@@ -8,7 +8,7 @@
 import dynamic from "next/dynamic";
 import { Panel } from "@/components/panel";
 
-export const DATASET_ID = process.env.NEXT_PUBLIC_DATASET_ID ?? "eor-h21cm";
+export const DATASET_ID = process.env.NEXT_PUBLIC_DATASET_ID || "eor-h21cm";
 
 const Viewer = dynamic(() => import("./viewer").then((m) => m.Viewer), {
   ssr: false,

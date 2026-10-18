@@ -28,6 +28,7 @@ Checks, the same ones CI runs:
 ```bash
 cd api && uv run ruff check && uv run ruff format --check && uv run mypy && uv run pytest
 cd web && pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build
+docker compose -f compose.yaml -f compose.e2e.yaml run --rm --build e2e   # Playwright + axe, see e2e/README.md
 ```
 
 ## Layout
@@ -36,6 +37,7 @@ cd web && pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm 
 |---|---|
 | `web/` | Next.js (App Router, TypeScript) front end |
 | `api/` | Flask API: GraphQL for metadata, REST for the binary volume |
+| `e2e/` | Playwright and axe tests, run in Docker against the whole stack |
 | `data/` | Processed volume and its README (the raw FITS file is not committed - taken from SKA-Low website) |
 | `docs/` | Overview, architecture, design, background, ADRs |
 | `backlog/` | Epics, stories and tasks |

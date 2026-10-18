@@ -1,0 +1,16 @@
+{
+  "name": "@skacube/e2e",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.12.4",
+  "scripts": {
+    "test": "playwright test",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.64.1",
+    "@types/node": "^22",
+    "typescript": "^5"
+  }
+}
