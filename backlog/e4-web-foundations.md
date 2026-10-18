@@ -14,7 +14,7 @@ Acceptance:
 Tasks:
 - [x] T4.1.1 `tokens.css` and Tailwind theme mapping — M
 - [x] T4.1.2 Fonts via `next/font` (Big Shoulders Display, Hanken Grotesk, Martian Mono) — S
-- [ ] T4.1.3 Design the diverging colormap (perceptually even, dark midpoint) and add tokens — M
+- [x] T4.1.3 Design the diverging colormap (perceptually even, dark midpoint) and add tokens — M (done in E5; design system artifact not yet updated)
 - [x] T4.1.4 Theme toggle, remembered per visitor — S
 
 ## S4.2 Primitives
@@ -24,7 +24,7 @@ As a developer, I build UI from accessible, restyled primitives.
 Tasks:
 - [x] T4.2.1 `shadcn init`; add Button, Slider, Toggle Group, Tooltip — S
 - [ ] T4.2.2 Restyle to the design system (square panels, 2px controls, focus ring) — M
-- [ ] T4.2.3 Skacube components: Panel, Readout, ColormapLegend, FitsHeader — M
+- [ ] T4.2.3 Skacube components: Panel, Readout, ColormapLegend, FitsHeader — M (Panel, Readout, ColormapLegend done in E5; FitsHeader open)
 
 ## S4.3 Typed data fetching
 

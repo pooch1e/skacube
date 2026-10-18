@@ -1,32 +1,15 @@
 /**
  * ThemeToggle — switches Night and Day and remembers the choice. Labelled in
  * words, so the current theme never relies on colour alone. The theme lives
- * on <html data-theme>, set before paint by the inline script; this reads it
- * as an external store so the server render ("night") hydrates without a
- * mismatch and then shows the real value.
+ * on <html data-theme>, set before paint by the inline script (see useTheme).
  */
 "use client";
 
-import { useSyncExternalStore } from "react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { THEME_ATTRIBUTE, applyTheme, isTheme, type Theme } from "@/lib/theme";
+import { applyTheme, isTheme, type Theme } from "@/lib/theme";
+import { useTheme } from "@/lib/use-theme";
 
 const labels: Record<Theme, string> = { night: "Night", day: "Day" };
-
-function subscribe(onChange: () => void) {
-  const observer = new MutationObserver(onChange);
-  observer.observe(document.documentElement, { attributeFilter: [THEME_ATTRIBUTE] });
-  return () => observer.disconnect();
-}
-
-function getSnapshot(): Theme {
-  const value = document.documentElement.getAttribute(THEME_ATTRIBUTE);
-  return isTheme(value) ? value : "night";
-}
-
-function getServerSnapshot(): Theme {
-  return "night";
-}
 
 function storage(): Storage | undefined {
   try {
@@ -37,7 +20,7 @@ function storage(): Storage | undefined {
 }
 
 export function ThemeToggle() {
-  const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const theme = useTheme();
 
   return (
     <ToggleGroup

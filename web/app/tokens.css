@@ -58,6 +58,17 @@
   --sk-cmap-4: #f6a13a;
   --sk-cmap-5: #fdf1c7;
 
+  /* Diverging map for signed kelvin (ADR 0015): designed in OKLCh with equal
+     lightness either side of a dark midpoint (0 K), so neither sign reads as
+     brighter. lib/viewer/colormap.test.ts checks the symmetry. */
+  --sk-cmap-div-0: #c7edff;
+  --sk-cmap-div-1: #5eaceb;
+  --sk-cmap-div-2: #02629c;
+  --sk-cmap-div-3: #0e0d1c;
+  --sk-cmap-div-4: #91450d;
+  --sk-cmap-div-5: #e08d5d;
+  --sk-cmap-div-6: #ffddc5;
+
   --sk-space-1: 4px;
   --sk-space-2: 8px;
   --sk-space-3: 12px;

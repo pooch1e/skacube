@@ -25,7 +25,7 @@ The full, browsable system is the Skacube design system artifact: https://claude
 | `accent` | `#a8d8ff` | `#bfe3ff` | Primary fill, selection, crosshair |
 | `on-accent` | `#08071c` | `#14122b` | Text on accent |
 
-Plus a six-stop sequential data colormap (`cmap-0` to `cmap-5`), a diverging colormap for signed data (`cmap-div-*`, to be added: [ADR 0015](../adr/0015-diverging-colormap.md)), and two shadows (`shadow-elevation`, `shadow-md`; `none` in Night).
+Plus a six-stop sequential data colormap (`cmap-0` to `cmap-5`), a seven-stop diverging colormap for signed data (`cmap-div-0` to `cmap-div-6`: pale blue through a dark indigo 0 K midpoint to pale peach, with equal OKLab lightness either side; [ADR 0015](../adr/0015-diverging-colormap.md)), and two shadows (`shadow-elevation`, `shadow-md`; `none` in Night).
 
 ## Type
 
