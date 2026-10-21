@@ -20,11 +20,11 @@ docker compose -f compose.yaml -f compose.e2e.yaml down
 
 On Apple Silicon the runner is emulated, so it is slower than on CI.
 
-| File | Covers |
-|---|---|
+| File                    | Covers                                                                                                                  |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | `tests/journey.spec.ts` | Page and API up, both views render, slider moves slice and readouts, theme persists, reduced motion, no-WebGL2 fallback |
-| `tests/render.spec.ts` | One screenshot of the 3D view at the default camera |
-| `tests/a11y.spec.ts` | axe in Night and Day; serious or critical violations fail |
-| `tests/fixtures.ts` | Fails any test that logs a console error, which is how a shader compile failure shows up |
+| `tests/render.spec.ts`  | One screenshot of the 3D view at the default camera                                                                     |
+| `tests/a11y.spec.ts`    | axe in Night and Day; serious or critical violations fail                                                               |
+| `tests/fixtures.ts`     | Fails any test that logs a console error, which is how a shader compile failure shows up                                |
 
 Failures leave a trace and screenshots in `test-results/`; open a trace with `pnpm exec playwright show-trace <file>`.

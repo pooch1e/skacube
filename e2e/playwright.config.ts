@@ -2,6 +2,10 @@
  * Playwright config — runs against the Compose stack on the synthetic cube
  * (compose.e2e.yaml). Chromium is forced onto SwiftShader so WebGL2 renders in
  * software identically everywhere, which the render screenshot relies on.
+ *
+ * Tests default to reduced motion: auto-rotate under software WebGL redraws
+ * every frame and starves the page's main thread on small CI runners. The
+ * test that checks auto-rotate opts back in.
  */
 import { defineConfig, devices } from "@playwright/test";
 
@@ -21,6 +25,8 @@ export default defineConfig({
     baseURL: process.env.BASE_URL ?? "http://localhost:3000",
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
+    reducedMotion: "reduce",
+    colorScheme: "dark",
   },
   projects: [
     {
