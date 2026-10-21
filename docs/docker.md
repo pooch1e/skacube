@@ -66,12 +66,14 @@ The manifest-first split is **layer caching**: dependencies change rarely, sourc
 | Instruction | What and why |
 |---|---|
 | `FROM python:3.13-slim` | A fresh base. No uv, no build leftovers. |
-| `useradd --system --uid 10001 app` / `USER app` | Run as a non-root user, so a compromised process has far less power. |
+| `useradd --system --uid 10001 --create-home app` / `USER app` | Run as a non-root user, so a compromised process has far less power. gunicorn needs a home directory for its control socket. |
 | `COPY --from=builder --chown=app:app /app/.venv /app/.venv` | The one thing taken from stage 1: the finished venv. |
+| `COPY --from=data . /app/data` | The processed data, from a **named build context** called `data` (Compose's `additional_contexts`, or `docker build --build-context data=data/processed api`). It lives outside `./api`, so a plain `COPY` couldn't see it. Baking it in lets Cloud Run run the image with no mounts ([deployment](deployment.md)). |
 | `ENV PATH="/app/.venv/bin:$PATH"` | Makes `gunicorn` and `python` resolve to the venv's copies. |
 | `PYTHONUNBUFFERED=1` | Logs appear immediately instead of being buffered. |
+| `SKACUBE_DATA_DIR=/app/data` | Points the app at the baked-in data. Compose overrides it with `/data` and a mount, so local data changes need no rebuild. |
 | `EXPOSE 3001` | **Documentation only.** It declares the port; it publishes nothing. Publishing is `ports:` in Compose. |
-| `CMD ["gunicorn", "--bind", "0.0.0.0:3001", "skacube:create_app()"]` | Start command. gunicorn is a production WSGI server (Flask's dev server isn't). `0.0.0.0` means "accept connections from outside the container"; `127.0.0.1` would only accept connections from inside it. `skacube:create_app()` calls the app factory. |
+| `CMD ["gunicorn", "--bind", "0.0.0.0:3001", "--workers", "2", "--threads", "8", "skacube:create_app()"]` | Start command. gunicorn is a production WSGI server (Flask's dev server isn't). `0.0.0.0` means "accept connections from outside the container"; `127.0.0.1` would only accept connections from inside it. Two processes with eight threads each serve 16 requests at once, so a slow 10 MB volume download doesn't block GraphQL. `skacube:create_app()` calls the app factory. |
 
 `api/.dockerignore` keeps `.venv`, caches and tests out of the build context.
 
@@ -98,7 +100,7 @@ The manifest-first split is **layer caching**: dependencies change rarely, sourc
 
 ```yaml
 services:
-  api:   build: ./api      # build context = ./api, uses api/Dockerfile
+  api:   build: ./api      # build context = ./api, plus additional_contexts data: ./data/processed
   web:   build: ./web      # ...with args: API_URL: http://api:3001
 ```
 

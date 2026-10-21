@@ -19,7 +19,13 @@ FROM python:3.13-slim AS runtime
 RUN useradd --system --uid 10001 --create-home app
 WORKDIR /app
 COPY --from=builder --chown=app:app /app/.venv /app/.venv
-ENV PATH="/app/.venv/bin:$PATH" PYTHONUNBUFFERED=1
+# Processed data comes from a named build context (`--build-context data=data/processed`,
+# or compose's additional_contexts) so Cloud Run, which has no host folder to
+# mount, gets it inside the image. Compose and e2e still override it with a mount.
+COPY --from=data --chown=app:app . /app/data
+ENV PATH="/app/.venv/bin:$PATH" PYTHONUNBUFFERED=1 SKACUBE_DATA_DIR=/app/data
 USER app
 EXPOSE 3001
-CMD ["gunicorn", "--bind", "0.0.0.0:3001", "skacube:create_app()"]
+# Threads keep one slow volume download from blocking GraphQL; Cloud Run's
+# --concurrency is set to workers × threads (docs/deployment.md).
+CMD ["gunicorn", "--bind", "0.0.0.0:3001", "--workers", "2", "--threads", "8", "skacube:create_app()"]
