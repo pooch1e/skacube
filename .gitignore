@@ -12,6 +12,7 @@ data/raw/
 
 # Node / Next.js (web/)
 node_modules/
+.pnpm-store/
 .next/
 out/
 coverage/

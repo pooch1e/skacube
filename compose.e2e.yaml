@@ -30,6 +30,8 @@ services:
       BASE_URL: http://web:3000
       CI: ${CI:-}
       COREPACK_ENABLE_DOWNLOAD_PROMPT: "0"
+      # Keep pnpm's store in the container, not in the mounted e2e/ folder.
+      npm_config_store_dir: /root/.pnpm-store
     volumes:
       - ./e2e:/e2e
       - /e2e/node_modules
