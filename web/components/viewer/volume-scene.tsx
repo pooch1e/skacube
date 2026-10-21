@@ -1,13 +1,14 @@
 /**
  * VolumeScene — the react-three-fiber canvas for the 3D lightcone: camera,
  * orbit controls, the raymarched volume, the box outline and the slice plane
- * that tracks the channel slider. Renders on demand unless auto-rotating, so
- * an idle viewer costs no GPU time.
+ * that tracks the channel slider. The camera is framed to fit the box in the
+ * panel's current shape. Renders on demand unless auto-rotating, so an idle
+ * viewer costs no GPU time.
  */
 "use client";
 
 import { Line, OrbitControls } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   useEffect,
   useImperativeHandle,
@@ -15,8 +16,17 @@ import {
   useRef,
   type ComponentRef,
   type Ref,
+  type RefObject,
 } from "react";
-import { BoxGeometry, EdgesGeometry, type Mesh, type ShaderMaterial } from "three";
+import {
+  BoxGeometry,
+  EdgesGeometry,
+  PerspectiveCamera,
+  Vector3,
+  type Mesh,
+  type ShaderMaterial,
+} from "three";
+import { fitDistance } from "@/lib/viewer/camera";
 import type { Volume } from "@/lib/viewer/volume";
 import { createColormapTexture, createVolumeMaterial, createVolumeTexture } from "./volume-shader";
 
@@ -37,7 +47,35 @@ type VolumeSceneProps = {
   ref?: Ref<VolumeSceneHandle>;
 };
 
-const CAMERA_POSITION: [number, number, number] = [1.15, 0.7, 1.35];
+const VIEW_DIRECTION = new Vector3(1.15, 0.7, 1.35).normalize();
+const FIELD_OF_VIEW_DEG = 35;
+
+type Controls = ComponentRef<typeof OrbitControls>;
+
+/** Moves the camera back along the default view until the box fits, and makes that the reset view. */
+function FitCamera({
+  box,
+  controls,
+}: {
+  box: [number, number, number];
+  controls: RefObject<Controls | null>;
+}) {
+  const get = useThree((state) => state.get);
+  const aspect = useThree((state) => state.size.width / Math.max(1, state.size.height));
+
+  useEffect(() => {
+    const { camera, invalidate } = get();
+    if (!(camera instanceof PerspectiveCamera)) return;
+    camera.position.copy(VIEW_DIRECTION).multiplyScalar(fitDistance(box, camera.fov, aspect));
+    camera.lookAt(0, 0, 0);
+    controls.current?.target.set(0, 0, 0);
+    controls.current?.update();
+    controls.current?.saveState();
+    invalidate();
+  }, [get, box, aspect, controls]);
+
+  return null;
+}
 
 function VolumeMesh({
   volume,
@@ -147,7 +185,7 @@ export function VolumeScene({
   label,
   ref,
 }: VolumeSceneProps) {
-  const controls = useRef<ComponentRef<typeof OrbitControls>>(null);
+  const controls = useRef<Controls>(null);
 
   useImperativeHandle(ref, () => ({ resetView: () => controls.current?.reset() }), []);
 
@@ -158,7 +196,7 @@ export function VolumeScene({
       flat
       dpr={[1, 1.5]}
       frameloop={autoRotate ? "always" : "demand"}
-      camera={{ position: CAMERA_POSITION, fov: 35, near: 0.01, far: 20 }}
+      camera={{ position: VIEW_DIRECTION.toArray(), fov: FIELD_OF_VIEW_DEG, near: 0.01, far: 20 }}
       gl={{ antialias: true, alpha: true, premultipliedAlpha: true }}
       className="touch-none"
     >
@@ -183,10 +221,11 @@ export function VolumeScene({
         enableDamping
         enablePan={false}
         minDistance={0.6}
-        maxDistance={5}
+        maxDistance={8}
         autoRotate={autoRotate}
         autoRotateSpeed={0.6}
       />
+      <FitCamera box={box} controls={controls} />
     </Canvas>
   );
 }
