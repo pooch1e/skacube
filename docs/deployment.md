@@ -26,15 +26,11 @@ The site uses the default `*.vercel.app` domain. Nothing secret is stored in Git
 
 Vercel deploys whatever reaches `main`, so `main` must only accept merged PRs with green checks ([ADR 0003](adr/0003-public-repo-github-flow.md), [ADR 0024](adr/0024-ci-pipeline.md)). In Settings → Branches, add a rule for `main`: require a pull request, and require the `api`, `web`, `contract`, `e2e` and `pr-title` checks.
 
-### 2. Code changes before the first deploy
+### 2. What the code already does
 
-These are tasks in [E8](../backlog/e8-deploy.md), not yet done:
-
-- **Bake the data into the API image.** Compose mounts `data/processed` into the container, but Cloud Run has no host folder to mount. The build context is `api/`, so the data is passed as a second context rather than by widening the context:
-  - `api/Dockerfile`: `COPY --from=data . /app/data` and `ENV SKACUBE_DATA_DIR=/app/data`. The default data path in `config.py` resolves relative to the source tree, which does not exist in the installed image.
-  - `compose.yaml`: `build.additional_contexts: { data: ./data/processed }`. The existing `/data` mount and `SKACUBE_DATA_DIR` still override it locally and in e2e.
-  - CI: `docker build --build-context data=data/processed api`.
-- **Give gunicorn some concurrency.** It currently runs one sync worker, so a 10 MB volume download blocks every GraphQL request queued behind it. Use `--workers 2 --threads 8` and set Cloud Run's `--concurrency 16` to match.
+- **Data is baked into the API image.** Cloud Run has no host folder to mount, so `api/Dockerfile` copies `data/processed` from a named build context and sets `SKACUBE_DATA_DIR=/app/data`. Build it with `docker build --build-context data=data/processed api`; Compose passes the same context through `additional_contexts` and still mounts `/data` over it locally.
+- **gunicorn runs 2 workers × 8 threads**, so one slow volume download doesn't block GraphQL. Cloud Run's `--concurrency=16` matches that.
+- **`.github/workflows/deploy-api.yml`** deploys the API. It skips itself until the repository variables in step 3 exist.
 
 ### 3. Google Cloud, once
 
@@ -118,11 +114,12 @@ Note the service URL it prints (`https://skacube-api-….run.app`) and check `cu
 ## Every deploy after that
 
 - **Web**: merge to `main`. Vercel builds and promotes it. Each PR gets a preview URL. Previews call the production API, so keep schema changes backward-compatible and deploy the API side first.
-- **API**: the `deploy-api` workflow (task T8.2.2) runs on pushes to `main` that touch `api/` or `data/processed/`:
-  1. `google-github-actions/auth` with `GCP_WIF_PROVIDER` and `GCP_DEPLOYER_SA` (`permissions: id-token: write`)
-  2. Build with the data context, tagged with the commit SHA, then push
-  3. `gcloud run deploy` with the flags above
-  4. Smoke test (below). A failure leaves the previous revision serving.
+- **API**: `.github/workflows/deploy-api.yml` runs on pushes to `main` that touch `api/` or `data/processed/`, or by hand from the Actions tab:
+  1. Signs in to Google Cloud with Workload Identity Federation (`GCP_WIF_PROVIDER`, `GCP_DEPLOYER_SA`)
+  2. Builds with the data context, tags the image with the commit SHA, and pushes it
+  3. Deploys a **candidate** revision with no traffic, at its own tagged URL
+  4. Smoke-tests the candidate: `/health`, a GraphQL query, and the volume decoding to 16,777,216 bytes
+  5. Only if that passes, moves all traffic to the candidate. A failure leaves the previous revision serving.
 
 ## Smoke test
 

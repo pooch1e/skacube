@@ -17,9 +17,9 @@ Acceptance:
 
 Tasks:
 - [ ] T8.2.0 Protect `main` with required checks (Vercel deploys whatever lands on it) — S
-- [ ] T8.2.1a Bake `data/processed` into the API image via a build context; set `SKACUBE_DATA_DIR` in the image — S
-- [ ] T8.2.1b gunicorn workers and threads to match Cloud Run concurrency — S
+- [x] T8.2.1a Bake `data/processed` into the API image via a build context; set `SKACUBE_DATA_DIR` in the image — S
+- [x] T8.2.1b gunicorn workers and threads to match Cloud Run concurrency — S
 - [ ] T8.2.1 Infrastructure (registry, services, domain) — M ([one-time setup](../docs/deployment.md#3-google-cloud-once))
-- [ ] T8.2.2 Deploy workflow — M
+- [ ] T8.2.2 Deploy workflow — M (API workflow written: candidate revision, smoke test, promote; runs once the GCP setup exists. Web deploys through Vercel's Git integration)
 - [ ] T8.2.3 Smoke test against the live URL after deploy — S
 - [ ] T8.2.4 Update root README with the live link — S
