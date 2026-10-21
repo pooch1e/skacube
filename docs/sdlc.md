@@ -13,6 +13,7 @@ How Skacube is built, tested and shipped.
 ```
 skacube/
 ├── web/    Next.js app
+├── e2e/    Playwright and axe, run in Docker against the stack
 ├── api/    Flask API and ingest
 ├── data/   raw/ (git-ignored), processed/ (committed)
 ├── docs/   this wiki
@@ -27,7 +28,7 @@ Native with hot reload; `docker compose up` for the full stack ([0025](adr/0025-
 
 ## Testing
 
-Synthetic cube at every layer; RTL only for components with logic; one Playwright screenshot for the shader ([0022](adr/0022-testing-strategy.md)); axe accessibility checks in e2e ([0027](adr/0027-accessibility-checks.md)).
+Synthetic cube at every layer; RTL only for components with logic; one Playwright screenshot for the shader ([0022](adr/0022-testing-strategy.md)); axe accessibility checks in e2e ([0027](adr/0027-accessibility-checks.md)). End-to-end tests run in the pinned Playwright image via `compose.e2e.yaml`, so local runs and CI render identically ([e2e/README.md](../e2e/README.md)). Before a release, work through the [release checklist](release-checklist.md).
 
 ## CI
 

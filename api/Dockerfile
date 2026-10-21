@@ -15,7 +15,8 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked --no-dev --no-editable
 
 FROM python:3.13-slim AS runtime
-RUN useradd --system --uid 10001 --no-create-home app
+# gunicorn writes a control socket under $HOME, so the user needs one.
+RUN useradd --system --uid 10001 --create-home app
 WORKDIR /app
 COPY --from=builder --chown=app:app /app/.venv /app/.venv
 ENV PATH="/app/.venv/bin:$PATH" PYTHONUNBUFFERED=1

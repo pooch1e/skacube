@@ -1,0 +1,41 @@
+# End-to-end override (E7): the full stack on the synthetic cube, plus a
+# Playwright runner in Microsoft's pinned image so local runs and CI render
+# with the same Chromium and SwiftShader (needed for the screenshot baseline).
+#
+#   docker compose -f compose.yaml -f compose.e2e.yaml run --rm --build e2e
+#
+# Pass extra Playwright arguments after `e2e`, e.g. `--update-snapshots`.
+# Host ports are dropped: the runner reaches web over the Compose network, so
+# e2e can run next to a dev server that already holds 3000 and 3001.
+services:
+  api:
+    ports: !reset []
+    volumes:
+      - ./data/fixtures:/data:ro
+
+  web:
+    ports: !reset []
+    image: skacube-web-e2e
+    build:
+      args:
+        NEXT_PUBLIC_DATASET_ID: synthetic
+
+  e2e:
+    image: mcr.microsoft.com/playwright:v1.64.1-noble
+    # Screenshot baselines are only comparable on one architecture; CI is amd64.
+    platform: linux/amd64
+    working_dir: /e2e
+    ipc: host
+    environment:
+      BASE_URL: http://web:3000
+      CI: ${CI:-}
+      COREPACK_ENABLE_DOWNLOAD_PROMPT: "0"
+      # Keep pnpm's store in the container, not in the mounted e2e/ folder.
+      npm_config_store_dir: /root/.pnpm-store
+    volumes:
+      - ./e2e:/e2e
+      - /e2e/node_modules
+    entrypoint: ["sh", "-c", "corepack enable && pnpm install --frozen-lockfile && pnpm exec playwright test \"$$@\"", "--"]
+    depends_on:
+      web:
+        condition: service_healthy
