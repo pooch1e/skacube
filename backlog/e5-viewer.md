@@ -4,6 +4,8 @@ The 3D lightcone and its linked channel slice. ADRs: [0010](../docs/adr/0010-rea
 
 ## S5.1 Volume render
 
+Verified in CI by the e2e suite ([E7](e7-quality.md)): the shader compiles and renders under SwiftShader, and a screenshot baseline guards it. Still to check by eye: the look on the real dataset, and the 30 fps target on a mid-range laptop ([release checklist](../docs/release-checklist.md)).
+
 As a visitor, I can rotate and zoom a 3D render of the lightcone.
 
 Acceptance:
@@ -13,10 +15,10 @@ Acceptance:
 - Stays above 30 fps on a mid-range laptop
 
 Tasks:
-- [ ] T5.1.1 Canvas, camera, OrbitControls, loading state — S (code complete, needs browser check)
-- [ ] T5.1.2 Raymarch shader (front-to-back, early exit) — L (code complete, needs browser check)
-- [ ] T5.1.3 Colormap as a 1D texture from tokens — S (code complete, needs browser check)
-- [ ] T5.1.4 Opacity and threshold uniforms — S (code complete, needs browser check)
+- [x] T5.1.1 Canvas, camera, OrbitControls, loading state — S
+- [x] T5.1.2 Raymarch shader (front-to-back, early exit) — L
+- [x] T5.1.3 Colormap as a 1D texture from tokens — S
+- [x] T5.1.4 Opacity and threshold uniforms — S
 
 ## S5.2 Linked channel slice
 
@@ -29,8 +31,8 @@ Acceptance:
 
 Tasks:
 - [x] T5.2.1 Slice extraction from the volume bytes (pure function + tests) — S
-- [ ] T5.2.2 2D slice canvas with the colormap — M (code complete, needs browser check)
-- [ ] T5.2.3 Slice plane in the 3D scene — S (code complete, needs browser check)
+- [x] T5.2.2 2D slice canvas with the colormap — M
+- [x] T5.2.3 Slice plane in the 3D scene — S
 - [x] T5.2.4 Frequency ↔ redshift utility + tests — S
 
 ## S5.3 Controls and readouts
@@ -43,7 +45,7 @@ Acceptance:
 - All controls keyboard-operable
 
 Tasks:
-- [ ] T5.3.1 Control panel from primitives — M (code complete, needs browser check)
+- [x] T5.3.1 Control panel from primitives — M
 - [x] T5.3.2 Readouts and legend — S
 
 ## S5.4 Unsupported browsers
@@ -51,10 +53,10 @@ Tasks:
 As a visitor without WebGL2, I still get something useful.
 
 - [ ] T5.4.1 Decide fallback behaviour ([ADR 0029](../docs/adr/0029-webgl2-fallback.md), proposed, awaiting acceptance) — S
-- [ ] T5.4.2 Implement it — S (code complete, needs browser check)
+- [x] T5.4.2 Implement it — S
 
 ## S5.5 Reduced motion
 
 As a visitor who prefers reduced motion, the volume doesn't auto-rotate.
 
-- [ ] T5.5.1 Respect `prefers-reduced-motion` — S (code complete, needs browser check)
+- [x] T5.5.1 Respect `prefers-reduced-motion` — S

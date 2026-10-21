@@ -11,15 +11,15 @@ Acceptance:
 - Covers: page loads, canvas renders, slider changes the slice and readouts, theme toggle
 
 Tasks:
-- [ ] T7.1.1 Playwright setup against Compose — M
-- [ ] T7.1.2 Core journey tests — M
-- [ ] T7.1.3 `e2e` workflow with artifacts (traces, screenshots) on failure — S
+- [x] T7.1.1 Playwright setup against Compose — M
+- [x] T7.1.2 Core journey tests — M
+- [x] T7.1.3 `e2e` workflow with artifacts (traces, screenshots) on failure — S
 
 ## S7.2 Render regression
 
 As a developer, I find out when a shader change alters the render.
 
-- [ ] T7.2.1 One screenshot comparison with software WebGL (SwiftShader), fixed camera — M
+- [x] T7.2.1 One screenshot comparison with software WebGL (SwiftShader), fixed camera — M
 
 ## S7.3 Accessibility
 
@@ -30,5 +30,5 @@ Acceptance:
 - Manual keyboard-only pass recorded in each release's notes
 
 Tasks:
-- [ ] T7.3.1 `@axe-core/playwright` checks — S
-- [ ] T7.3.2 Release checklist item for the manual pass — S
+- [x] T7.3.1 `@axe-core/playwright` checks — S
+- [x] T7.3.2 Release checklist item for the manual pass — S

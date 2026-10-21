@@ -43,7 +43,7 @@ Acceptance:
 - Actual sizes recorded in the docs
 
 Tasks:
-- [ ] T2.3.1 Run on the real file, check memory use, commit output — S
+- [x] T2.3.1 Run on the real file, check memory use, commit output — S
 - [x] T2.3.2 Record sizes in `docs/background/dataset.md` — S
 
 ## S2.4 Data README

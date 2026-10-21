@@ -8,14 +8,14 @@ Sizes: **S** (under half a day), **M** (about a day), **L** (two to three days).
 
 | # | Epic | Depends on | Status |
 |---|---|---|---|
-| [E1](e1-foundations.md) | Foundations: repo, tooling, CI | — | Ready |
-| [E2](e2-ingest.md) | Data ingest | E1 | Ready |
-| [E3](e3-api.md) | API | E1, E2 | Ready |
-| [E4](e4-web-foundations.md) | Web foundations | E1, E3 (schema) | Ready |
-| [E5](e5-viewer.md) | Viewer | E3, E4 | Code complete on `e5/viewer`, not yet checked in a browser |
+| [E1](e1-foundations.md) | Foundations: repo, tooling, CI | — | Done except branch protection on `main` and the project board |
+| [E2](e2-ingest.md) | Data ingest | E1 | Done |
+| [E3](e3-api.md) | API | E1, E2 | Done |
+| [E4](e4-web-foundations.md) | Web foundations | E1, E3 (schema) | Done except T4.2.2 restyle and FitsHeader |
+| [E5](e5-viewer.md) | Viewer | E3, E4 | Done; ADR 0029 awaiting acceptance, real-data look and 30 fps to check by eye |
 | [E6](e6-splash.md) | Splash page | E4, E5 | Needs UX decisions |
-| [E7](e7-quality.md) | End-to-end quality | E1, E5 | Ready |
-| [E8](e8-deploy.md) | Deployment | E7 | Blocked on hosting ADR |
+| [E7](e7-quality.md) | End-to-end quality | E1, E5 | Done |
+| [E8](e8-deploy.md) | Deployment | E7 | Hosting decided ([0030](../docs/adr/0030-hosting.md)); deploy prep in progress |
 | [E9](e9-enhancements.md) | Viewer enhancements | E5 | Later |
 
 ## Suggested order
