@@ -17,7 +17,7 @@ Acceptance:
 
 Tasks:
 - [ ] T6.2.1 Hero layout and copy — M
-- [ ] T6.2.2 Loading and error states — S
+- [ ] T6.2.2 Loading and error states — S. The API scales to zero ([ADR 0030](../docs/adr/0030-hosting.md)), so after an idle spell the first visit waits a few seconds; an intro or loading screen should cover that, not a blank panel
 
 ## S6.3 Story and provenance
 

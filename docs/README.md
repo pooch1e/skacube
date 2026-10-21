@@ -16,6 +16,8 @@ Status: **planning**. Sections marked _Open_ are still being decided.
 - [Dependencies](architecture/dependencies.md): languages, frameworks and libraries
 - [Production ingest](architecture/production-ingest.md): how hosting and ingest would work without local processing
 - [SDLC](sdlc.md): repo, branching, testing, CI/CD, releases
+- [Deployment](deployment.md): Vercel and Cloud Run runbook, smoke test, rollback
+- [Release checklist](release-checklist.md): automated, keyboard and visual checks before a tag
 - [Docker](docker.md): how the containers and Compose file work
 
 ## Design

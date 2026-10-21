@@ -12,10 +12,10 @@ Acceptance:
 - `main` is protected
 
 Tasks:
-- [ ] T1.1.1 Create repo, push `docs/`, add licence and `.gitignore` (`data/raw/`) — S
-- [ ] T1.1.2 Root README: what it is, how to run, links to docs and [production ingest](../docs/architecture/production-ingest.md) — S
-- [ ] T1.1.3 Branch protection, issue templates (story, task, bug), PR template with checklist — S
-- [ ] T1.1.4 Labels and a GitHub Project board for this backlog — S
+- [x] T1.1.1 Create repo, push `docs/`, add licence and `.gitignore` (`data/raw/`) — S
+- [x] T1.1.2 Root README: what it is, how to run, links to docs and [production ingest](../docs/architecture/production-ingest.md) — S
+- [ ] T1.1.3 Branch protection, issue templates (story, task, bug), PR template with checklist — S (templates done; `main` is not yet protected)
+- [ ] T1.1.4 Labels and a GitHub Project board for this backlog — S (labels done; board not checked)
 
 ## S1.2 API project setup
 
@@ -26,8 +26,8 @@ Acceptance:
 - `ruff check`, `ruff format --check`, `mypy`, `pytest` all pass
 
 Tasks:
-- [ ] T1.2.1 `uv init`, Flask app factory, `/health` route — S
-- [ ] T1.2.2 ruff, mypy (strict) and pytest config with one passing test — S
+- [x] T1.2.1 `uv init`, Flask app factory, `/health` route — S
+- [x] T1.2.2 ruff, mypy (strict) and pytest config with one passing test — S
 
 ## S1.3 Web project setup
 
@@ -38,8 +38,8 @@ Acceptance:
 - `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build` all pass
 
 Tasks:
-- [ ] T1.3.1 `create-next-app` (App Router, TypeScript strict, Tailwind, ESLint), pnpm — S
-- [ ] T1.3.2 Prettier and Vitest config with one passing test — S
+- [x] T1.3.1 `create-next-app` (App Router, TypeScript strict, Tailwind, ESLint), pnpm — S
+- [x] T1.3.2 Prettier and Vitest config with one passing test — S
 
 ## S1.4 CI pipeline
 
@@ -50,9 +50,9 @@ Acceptance:
 - Required checks enforced on `main`
 
 Tasks:
-- [ ] T1.4.1 `api` workflow: ruff, mypy, pytest, with uv cache — S
-- [ ] T1.4.2 `web` workflow: lint, typecheck, Vitest, build, with pnpm cache — S
-- [ ] T1.4.3 Conventional Commit check on PR titles; release-notes config — S
+- [x] T1.4.1 `api` workflow: ruff, mypy, pytest, with uv cache — S
+- [x] T1.4.2 `web` workflow: lint, typecheck, Vitest, build, with pnpm cache — S
+- [x] T1.4.3 Conventional Commit check on PR titles; release-notes config — S
 
 ## S1.5 Containers
 
@@ -62,6 +62,6 @@ Acceptance:
 - Compose starts `api` and `web`; the web placeholder can call `/health` through the same origin
 
 Tasks:
-- [ ] T1.5.1 API Dockerfile (multi-stage, uv, non-root) — M
-- [ ] T1.5.2 Web Dockerfile (Next standalone output) — M
-- [ ] T1.5.3 `compose.yaml`; Next rewrites `/graphql` and `/data/*` to the API — S
+- [x] T1.5.1 API Dockerfile (multi-stage, uv, non-root) — M
+- [x] T1.5.2 Web Dockerfile (Next standalone output) — M
+- [x] T1.5.3 `compose.yaml`; Next rewrites `/graphql` and `/data/*` to the API — S

@@ -2,7 +2,10 @@
 # Browse http://localhost:3000. See docs/docker.md.
 services:
   api:
-    build: ./api
+    build:
+      context: ./api
+      additional_contexts:
+        data: ./data/processed
     ports:
       - "3001:3001"
     environment:
