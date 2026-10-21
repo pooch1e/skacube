@@ -36,7 +36,7 @@ Path-filtered `api`, `web` and `contract` jobs; `e2e` on PRs to `main` ([0024](a
 
 ## Deployment
 
-Local first; cloud in a later stage ([0019](adr/0019-local-first-then-cloud.md)).
+Local first ([0019](adr/0019-local-first-then-cloud.md)). Going live: web on Vercel, API on Cloud Run ([0030](adr/0030-hosting.md)). See the [deployment runbook](deployment.md).
 
 ## Open
 

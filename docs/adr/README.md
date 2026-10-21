@@ -33,3 +33,4 @@ Each ADR records one decision: the context, the options considered, what was cho
 | [0027](0027-accessibility-checks.md) | Automated accessibility checks | Accepted |
 | [0028](0028-standalone-ingest-script.md) | Ingest is a standalone script, not part of the API | Accepted |
 | [0029](0029-webgl2-fallback.md) | Without WebGL2, keep the 2D slice | Proposed |
+| [0030](0030-hosting.md) | Host the web app on Vercel and the API on Cloud Run | Accepted |
