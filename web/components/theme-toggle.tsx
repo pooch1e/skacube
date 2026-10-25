@@ -5,11 +5,13 @@
  */
 "use client";
 
+import { Glyph } from "@/components/glyph";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { applyTheme, isTheme, type Theme } from "@/lib/theme";
 import { useTheme } from "@/lib/use-theme";
 
 const labels: Record<Theme, string> = { night: "Night", day: "Day" };
+const glyphs: Record<Theme, string> = { night: "★", day: "✦" };
 
 function storage(): Storage | undefined {
   try {
@@ -39,6 +41,7 @@ export function ThemeToggle() {
           value={value}
           className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
         >
+          <Glyph>{glyphs[value]}</Glyph>
           {labels[value]}
         </ToggleGroupItem>
       ))}
