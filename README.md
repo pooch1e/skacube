@@ -2,6 +2,8 @@
 
 Skacube is a demonstration project utilising Next.Js and a Flask backend to render a FITS file cube in 3d. I want to demonstrate my experience and skills with UI/UX, simple containerisation, design systems and my Agentic workflow process.
 
+**Live:** <https://skacube-blond.vercel.app>
+
 ## Why I built this
 
 I am very interested in working at SKA-Low as I like the UX challenge of communicating complicated technical instructions to a wide audience. I am not from a STEM background, so even in dissecting the SKA-Low docs and api, I was finding it very difficult to parse. I feel there is a good meeting point where design and UI can meet the extrodinarily exciting and technical disoveries the SKA-Low radioscope provides and demonstrate it to a wide audience. 

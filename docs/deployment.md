@@ -3,7 +3,7 @@
 How Skacube goes live: the web app on **Vercel**, the API on **Google Cloud Run** ([ADR 0030](adr/0030-hosting.md)). This page is the runbook for the first deploy and for every deploy after it. Backlog: [E8](../backlog/e8-deploy.md).
 
 ```
-browser ──► Vercel (skacube.vercel.app)
+browser ──► Vercel (skacube-blond.vercel.app)
              ├─ /                     static page, Vercel CDN
              ├─ /health, /graphql  ─┐ external rewrites (same origin, no CORS)
              └─ /data/volume/<id>  ─┤ cached on Vercel's CDN from the API's
@@ -13,12 +13,12 @@ browser ──► Vercel (skacube.vercel.app)
                          image in Artifact Registry, data baked in
 ```
 
-| Piece | Deployed by | When |
-|---|---|---|
-| Web | Vercel Git integration | Every push to `main` (production) and every PR (preview) |
-| API | GitHub Actions → Artifact Registry → Cloud Run | Pushes to `main` that touch `api/` or `data/processed/` |
+| Piece | Deployed by                                    | When                                                     |
+| ----- | ---------------------------------------------- | -------------------------------------------------------- |
+| Web   | Vercel Git integration                         | Every push to `main` (production) and every PR (preview) |
+| API   | GitHub Actions → Artifact Registry → Cloud Run | Pushes to `main` that touch `api/` or `data/processed/`  |
 
-The site uses the default `*.vercel.app` domain. Nothing secret is stored in GitHub. Actions authenticates to Google Cloud with Workload Identity Federation (OIDC). The project id, pool and service account names are configuration, kept as repository **variables**.
+The site uses the default `*.vercel.app` domain: <https://skacube-blond.vercel.app>. The API is at `https://skacube-api-1044914767088.us-central1.run.app`. Both were deployed on 2026-10-25 by following this runbook. Nothing secret is stored in GitHub. Actions authenticates to Google Cloud with Workload Identity Federation (OIDC). The project id, pool and service account names are configuration, kept as repository **variables**.
 
 ## Before the first deploy
 
@@ -74,12 +74,12 @@ gcloud iam service-accounts add-iam-policy-binding "$DEPLOYER" \
 
 Then add these as GitHub repository **variables** (Settings → Secrets and variables → Actions → Variables), not secrets:
 
-| Variable | Value |
-|---|---|
-| `GCP_PROJECT_ID` | `$PROJECT_ID` |
-| `GCP_REGION` | `$REGION` |
+| Variable           | Value                                                                                     |
+| ------------------ | ----------------------------------------------------------------------------------------- |
+| `GCP_PROJECT_ID`   | `$PROJECT_ID`                                                                             |
+| `GCP_REGION`       | `$REGION`                                                                                 |
 | `GCP_WIF_PROVIDER` | `projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/github/providers/github` |
-| `GCP_DEPLOYER_SA` | `$DEPLOYER` |
+| `GCP_DEPLOYER_SA`  | `$DEPLOYER`                                                                               |
 
 ### 4. First API deploy (by hand, once)
 
@@ -126,7 +126,7 @@ Note the service URL it prints (`https://skacube-api-….run.app`) and check `cu
 Run against the **Vercel** URL, because that is the path visitors take (task T8.2.3):
 
 ```bash
-SITE=https://skacube.vercel.app
+SITE=https://skacube-blond.vercel.app
 curl -fsS "$SITE/health"                                   # {"status":"ok"}
 curl -fsS "$SITE/graphql" -H 'content-type: application/json' \
   -d '{"query":"{ dataset(id: \"eor-h21cm\") { id shape { frequency } } }"}'

@@ -7,13 +7,15 @@ Design tokens, primitives and typed data fetching, before any viewer work. ADRs:
 As a developer, I style everything from Skacube tokens, in Night and Day.
 
 Acceptance:
+
 - Tokens from the [design system](../docs/design/README.md) as CSS variables; Night default, Day via `prefers-color-scheme` and a toggle
 - Tailwind theme reads the variables; shadcn theme variables map to them
 - Diverging colormap tokens `cmap-div-*` added here and to the design system artifact
 
 Tasks:
+
 - [x] T4.1.1 `tokens.css` and Tailwind theme mapping — M
-- [x] T4.1.2 Fonts via `next/font` (Big Shoulders Display, Hanken Grotesk, Martian Mono) — S
+- [x] T4.1.2 Fonts via `next/font` (Departure Mono, replacing Big Shoulders Display, Hanken Grotesk and Martian Mono) — S
 - [x] T4.1.3 Design the diverging colormap (perceptually even, dark midpoint) and add tokens — M (done in E5; design system artifact not yet updated)
 - [x] T4.1.4 Theme toggle, remembered per visitor — S
 
@@ -22,6 +24,7 @@ Tasks:
 As a developer, I build UI from accessible, restyled primitives.
 
 Tasks:
+
 - [x] T4.2.1 `shadcn init`; add Button, Slider, Toggle Group, Tooltip — S
 - [ ] T4.2.2 Restyle to the design system (square panels, 2px controls, focus ring) — M
 - [ ] T4.2.3 Skacube components: Panel, Readout, ColormapLegend, FitsHeader — M (Panel, Readout, ColormapLegend done in E5; FitsHeader open)
@@ -31,11 +34,13 @@ Tasks:
 As a developer, I call the API with types generated from its schema.
 
 Acceptance:
+
 - `graphqlRequest` wrapper + TanStack Query provider
 - Codegen (`typed-document-node`) from `api/schema.graphql`
 - `useDataset(id)` and `useVolume(id)` hooks; volume returns a `Uint8Array`
 
 Tasks:
+
 - [x] T4.3.1 Codegen config and script — S
 - [x] T4.3.2 Query client, wrapper, hooks, with loading and error states — M
 - [x] T4.3.3 Vitest tests for hooks against mocked responses — S

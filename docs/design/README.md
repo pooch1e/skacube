@@ -15,23 +15,21 @@ The full, browsable system is the Skacube design system artifact: https://claude
 
 ## Tokens
 
-| Token | Night | Day | Use |
-|---|---|---|---|
-| `ground` | `#08071c` | `#fbf8f1` | Page background |
-| `surface` | `#100e2b` | `#ffffff` | Panels, viewer frame |
-| `line` | `#2e2a5e` | `#e6e0d2` | Dividers, panel borders |
-| `ink` | `#eeedf8` | `#14122b` | Text, links, focus ring |
-| `ink-muted` | `#a6a3cc` | `#5d5a72` | Secondary text, control borders |
-| `accent` | `#a8d8ff` | `#bfe3ff` | Primary fill, selection, crosshair |
-| `on-accent` | `#08071c` | `#14122b` | Text on accent |
+| Token       | Night     | Day       | Use                                |
+| ----------- | --------- | --------- | ---------------------------------- |
+| `ground`    | `#08071c` | `#fbf8f1` | Page background                    |
+| `surface`   | `#100e2b` | `#ffffff` | Panels, viewer frame               |
+| `line`      | `#2e2a5e` | `#e6e0d2` | Dividers, panel borders            |
+| `ink`       | `#eeedf8` | `#14122b` | Text, links, focus ring            |
+| `ink-muted` | `#a6a3cc` | `#5d5a72` | Secondary text, control borders    |
+| `accent`    | `#a8d8ff` | `#bfe3ff` | Primary fill, selection, crosshair |
+| `on-accent` | `#08071c` | `#14122b` | Text on accent                     |
 
 Plus a six-stop sequential data colormap (`cmap-0` to `cmap-5`), a seven-stop diverging colormap for signed data (`cmap-div-0` to `cmap-div-6`: pale blue through a dark indigo 0 K midpoint to pale peach, with equal OKLab lightness either side; [ADR 0015](../adr/0015-diverging-colormap.md)), and two shadows (`shadow-elevation`, `shadow-md`; `none` in Night).
 
 ## Type
 
-- **Display**: Big Shoulders Display, for headlines and big figures
-- **Text**: Hanken Grotesk, for running copy
-- **Data**: Martian Mono, for header cards, coordinates and readouts
+One typeface throughout: **Departure Mono**, a pixel monospace with a single Regular weight, for a retro text-editor look. Headlines, running copy and data readouts all use it. Because there is no bold, every type token uses weight 400 and hierarchy comes from size, case and letter-spacing.
 
 ## Shape and space
 
