@@ -5,6 +5,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Glyph } from "@/components/glyph";
 import { fetchApiHealth, type ApiHealth } from "@/lib/health";
 
 const labels: Record<ApiHealth | "checking", string> = {
@@ -12,6 +13,13 @@ const labels: Record<ApiHealth | "checking", string> = {
   ok: "OK",
   degraded: "Degraded",
   unreachable: "Unreachable",
+};
+
+const glyphs: Record<ApiHealth | "checking", string> = {
+  checking: "□",
+  ok: "■",
+  degraded: "▲",
+  unreachable: "▼",
 };
 
 export function ApiStatus() {
@@ -29,7 +37,8 @@ export function ApiStatus() {
 
   return (
     <p role="status" className="font-mono text-data tabular-nums">
-      API: <span data-testid="api-health">{labels[health]}</span>
+      <Glyph className="mr-2 text-ink-muted">{glyphs[health]}</Glyph>API:{" "}
+      <span data-testid="api-health">{labels[health]}</span>
     </p>
   );
 }

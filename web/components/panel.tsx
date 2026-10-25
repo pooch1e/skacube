@@ -3,6 +3,7 @@
  * (design system: Panel). The heading names the region for screen readers.
  */
 import type { ComponentProps, ReactNode } from "react";
+import { Glyph } from "@/components/glyph";
 import { cn } from "@/lib/utils";
 
 type PanelProps = Omit<ComponentProps<"section">, "title"> & {
@@ -18,7 +19,12 @@ export function Panel({ title, actions, className, children, ...props }: PanelPr
     >
       {(title || actions) && (
         <header className="flex items-center justify-between gap-2 border-b border-line px-4 py-2">
-          {title && <h2 className="font-mono text-label text-ink-muted uppercase">{title}</h2>}
+          {title && (
+            <h2 className="font-mono text-label text-ink-muted uppercase">
+              <Glyph className="mr-2 text-ink-muted">■</Glyph>
+              {title}
+            </h2>
+          )}
           {actions}
         </header>
       )}

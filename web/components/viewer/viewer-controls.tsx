@@ -6,6 +6,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Glyph } from "@/components/glyph";
 import { Slider } from "@/components/ui/slider";
 import { Toggle } from "@/components/ui/toggle";
 import { channelFrequency, channelRedshift, type SpectralAxis } from "@/lib/viewer/spectral";
@@ -106,6 +107,7 @@ export function ViewerControls(props: ViewerControlsProps) {
               onPressedChange={props.onAutoRotateChange}
               className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
             >
+              <Glyph>►</Glyph>
               Auto-rotate
             </Toggle>
             <Button variant="outline" size="sm" onClick={props.onResetView}>

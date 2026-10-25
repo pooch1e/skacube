@@ -3,6 +3,7 @@
  * theme status. The page itself is static; the viewer loads in the browser
  * (ADR 0011). Replaced by the designed splash page in E6.
  */
+import { Glyph } from "@/components/glyph";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ViewerLoader } from "@/components/viewer/viewer-loader";
 import { ApiStatus } from "./api-status";
@@ -13,6 +14,7 @@ export default function Home() {
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div className="flex flex-col gap-2">
           <h1 className="font-display text-display-l">Skacube</h1>
+          <Glyph className="text-title text-ink-muted">░▒▓█</Glyph>
           <p className="max-w-2xl text-ink-muted">
             Simulated 21 cm lightcone (SKA Science Data Challenge 3a, noise-free model). Frequency
             runs along the depth: 106 MHz at redshift 12.4 to 199 MHz at redshift 6.1.
