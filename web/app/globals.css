@@ -77,37 +77,37 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --font-display: var(--font-big-shoulders-display), "Arial Narrow", system-ui, sans-serif;
-  --font-sans: var(--font-hanken-grotesk), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-departure-mono), ui-monospace, "SF Mono", Menlo, monospace;
+  --font-sans: var(--font-display);
   --font-heading: var(--font-display);
-  --font-mono: var(--font-martian-mono), ui-monospace, "SF Mono", Menlo, monospace;
+  --font-mono: var(--font-display);
 
   --text-display-xl: 96px;
   --text-display-xl--line-height: 0.92;
-  --text-display-xl--font-weight: 800;
+  --text-display-xl--font-weight: 400;
   --text-display-xl--letter-spacing: -0.01em;
   --text-display-l: 56px;
   --text-display-l--line-height: 0.95;
-  --text-display-l--font-weight: 800;
+  --text-display-l--font-weight: 400;
   --text-display-m: 32px;
   --text-display-m--line-height: 1.05;
-  --text-display-m--font-weight: 700;
+  --text-display-m--font-weight: 400;
   --text-title: 20px;
   --text-title--line-height: 28px;
-  --text-title--font-weight: 600;
+  --text-title--font-weight: 400;
   --text-body: 16px;
   --text-body--line-height: 26px;
   --text-body-s: 14px;
   --text-body-s--line-height: 22px;
   --text-label: 11px;
   --text-label--line-height: 16px;
-  --text-label--font-weight: 500;
+  --text-label--font-weight: 400;
   --text-label--letter-spacing: 0.08em;
   --text-data: 13px;
   --text-data--line-height: 20px;
   --text-readout: 28px;
   --text-readout--line-height: 32px;
-  --text-readout--font-weight: 500;
+  --text-readout--font-weight: 400;
   --text-readout--letter-spacing: -0.02em;
 
   --radius-none: var(--sk-radius-0);
