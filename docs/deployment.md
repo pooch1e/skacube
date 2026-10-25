@@ -13,10 +13,12 @@ browser ──► Vercel (skacube-blond.vercel.app)
                          image in Artifact Registry, data baked in
 ```
 
-| Piece | Deployed by                                    | When                                                     |
-| ----- | ---------------------------------------------- | -------------------------------------------------------- |
-| Web   | Vercel Git integration                         | Every push to `main` (production) and every PR (preview) |
-| API   | GitHub Actions → Artifact Registry → Cloud Run | Pushes to `main` that touch `api/` or `data/processed/`  |
+| Piece | Deployed by                                    | When                                                    |
+| ----- | ---------------------------------------------- | ------------------------------------------------------- |
+| Web   | Vercel Git integration                         | Pushes to `main` and PR pushes that touch `web/`        |
+| API   | GitHub Actions → Artifact Registry → Cloud Run | Pushes to `main` that touch `api/` or `data/processed/` |
+
+`web/vercel.json` sets an `ignoreCommand` that exits 0 (skip the build) when the latest commit changed nothing under `web/`. It runs from the Root Directory, so the `.` pathspec is `web/`. A skipped deployment shows as canceled in Vercel and GitHub; that is expected.
 
 The site uses the default `*.vercel.app` domain: <https://skacube-blond.vercel.app>. The API is at `https://skacube-api-1044914767088.us-central1.run.app`. Both were deployed on 2026-10-25 by following this runbook. Nothing secret is stored in GitHub. Actions authenticates to Google Cloud with Workload Identity Federation (OIDC). The project id, pool and service account names are configuration, kept as repository **variables**.
 
