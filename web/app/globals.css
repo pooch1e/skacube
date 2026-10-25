@@ -82,30 +82,30 @@
   --font-heading: var(--font-display);
   --font-mono: var(--font-display);
 
-  --text-display-xl: 96px;
+  --text-display-xl: var(--sk-text-display-xl);
   --text-display-xl--line-height: 0.92;
   --text-display-xl--font-weight: 400;
   --text-display-xl--letter-spacing: -0.01em;
-  --text-display-l: 56px;
+  --text-display-l: var(--sk-text-display-l);
   --text-display-l--line-height: 0.95;
   --text-display-l--font-weight: 400;
-  --text-display-m: 32px;
+  --text-display-m: var(--sk-text-display-m);
   --text-display-m--line-height: 1.05;
   --text-display-m--font-weight: 400;
-  --text-title: 20px;
+  --text-title: var(--sk-text-title);
   --text-title--line-height: 28px;
   --text-title--font-weight: 400;
-  --text-body: 16px;
+  --text-body: var(--sk-text-body);
   --text-body--line-height: 26px;
-  --text-body-s: 14px;
+  --text-body-s: var(--sk-text-body-s);
   --text-body-s--line-height: 22px;
-  --text-label: 11px;
+  --text-label: var(--sk-text-label);
   --text-label--line-height: 16px;
   --text-label--font-weight: 400;
   --text-label--letter-spacing: 0.08em;
-  --text-data: 13px;
+  --text-data: var(--sk-text-data);
   --text-data--line-height: 20px;
-  --text-readout: 28px;
+  --text-readout: var(--sk-text-readout);
   --text-readout--line-height: 32px;
   --text-readout--font-weight: 400;
   --text-readout--letter-spacing: -0.02em;
@@ -123,6 +123,32 @@
 
   --shadow-elevation: var(--sk-shadow-elevation);
   --shadow-md: var(--sk-shadow-md);
+}
+
+:root {
+  --sk-text-display-xl: 96px;
+  --sk-text-display-l: 56px;
+  --sk-text-display-m: 32px;
+  --sk-text-title: 20px;
+  --sk-text-body: 16px;
+  --sk-text-body-s: 14px;
+  --sk-text-label: 11px;
+  --sk-text-data: 13px;
+  --sk-text-readout: 28px;
+}
+
+/* Departure Mono is wide, so the readout row and control values collide on phones. Labels keep 11px: smaller uppercase is hard to read. */
+@media (max-width: 639px) {
+  :root {
+    --sk-text-display-xl: 94px;
+    --sk-text-display-l: 54px;
+    --sk-text-display-m: 30px;
+    --sk-text-title: 18px;
+    --sk-text-body: 14px;
+    --sk-text-body-s: 12px;
+    --sk-text-data: 11px;
+    --sk-text-readout: 26px;
+  }
 }
 
 @layer base {

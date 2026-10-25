@@ -29,7 +29,7 @@ Plus a six-stop sequential data colormap (`cmap-0` to `cmap-5`), a seven-stop di
 
 ## Type
 
-One typeface throughout: **Departure Mono**, a pixel monospace with a single Regular weight, for a retro text-editor look. Headlines, running copy and data readouts all use it. Because there is no bold, every type token uses weight 400 and hierarchy comes from size, case and letter-spacing.
+One typeface throughout: **Departure Mono**, a pixel monospace with a single Regular weight, for a retro text-editor look. Headlines, running copy and data readouts all use it. Because there is no bold, every type token uses weight 400 and hierarchy comes from size, case and letter-spacing. Below 640px every size token except `label` (11px) drops by 2px, because the wide monospace made the readouts and control values collide on phones.
 
 ## Shape and space
 

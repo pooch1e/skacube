@@ -1,6 +1,6 @@
 /**
  * ViewerControls — the channel slider and render controls (opacity,
- * threshold, auto-rotate, reset view), all keyboard-operable Radix
+ * threshold, auto-rotate, reset view and reset sliders), all keyboard-operable Radix
  * primitives. Slider thumbs carry value text in real units for screen readers.
  */
 "use client";
@@ -24,6 +24,7 @@ type ViewerControlsProps = {
   autoRotate: boolean;
   onAutoRotateChange: (autoRotate: boolean) => void;
   onResetView: () => void;
+  onResetParams: () => void;
   has3d: boolean;
 };
 
@@ -38,7 +39,7 @@ function ControlRow({
 }) {
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex items-baseline justify-between gap-2">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-2">
         <span className="font-mono text-label text-ink-muted uppercase">{label}</span>
         <span className="font-mono text-data tabular-nums">{value}</span>
       </div>
@@ -109,6 +110,9 @@ export function ViewerControls(props: ViewerControlsProps) {
             </Toggle>
             <Button variant="outline" size="sm" onClick={props.onResetView}>
               Reset view
+            </Button>
+            <Button variant="outline" size="sm" onClick={props.onResetParams}>
+              Reset sliders
             </Button>
           </div>
         </>

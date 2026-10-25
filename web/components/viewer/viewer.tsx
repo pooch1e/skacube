@@ -41,7 +41,8 @@ function ViewerMessage({ title, children }: { title: string; children: React.Rea
 }
 
 function LoadedViewer({ dataset, volume }: { dataset: ViewerDataset; volume: Volume }) {
-  const [channel, setChannel] = useState(Math.floor(dataset.spectral.length / 2));
+  const defaultChannel = Math.floor(dataset.spectral.length / 2);
+  const [channel, setChannel] = useState(defaultChannel);
   const [opacity, setOpacity] = useState(DEFAULT_OPACITY);
   const [threshold, setThreshold] = useState(DEFAULT_THRESHOLD);
   const [autoRotateChoice, setAutoRotateChoice] = useState<boolean | null>(null);
@@ -122,6 +123,11 @@ function LoadedViewer({ dataset, volume }: { dataset: ViewerDataset; volume: Vol
           autoRotate={autoRotate}
           onAutoRotateChange={setAutoRotateChoice}
           onResetView={() => scene.current?.resetView()}
+          onResetParams={() => {
+            setChannel(defaultChannel);
+            setOpacity(DEFAULT_OPACITY);
+            setThreshold(DEFAULT_THRESHOLD);
+          }}
           has3d={has3d}
         />
       </Panel>
